@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-space-black/80 backdrop-blur-md border-b border-neon-cyan/20">
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-2">
         <div className="flex items-center">
           {/* Logo */}
           <div className="relative group">
