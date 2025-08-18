@@ -62,7 +62,7 @@ const HeroSection = () => {
         {/* Subtitle with Delay Animation */}
         <div className={`transition-all duration-1000 ${showSubtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-12 leading-relaxed">
-            En <span className="text-neon-cyan font-semibold">t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial. 
+            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial. 
             No somos el futuro. <span className="text-matrix-green font-semibold">Somos el presente</span> que tus competidores aún no entienden.
           </p>
 
