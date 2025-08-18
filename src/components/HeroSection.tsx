@@ -45,8 +45,8 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Main Title with Typewriter Effect */}
         <div className="mb-8">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-cosmic font-display">
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-tight">
+            <span className="bg-clip-text bg-gradient-cosmic font-display">
               {displayedText.split('\n').map((line, index) => (
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
                   {line}
