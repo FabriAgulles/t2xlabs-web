@@ -2,95 +2,360 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* t2xLabs Futuristic Design System - Optimized for Maximum Impact */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core futuristic color palette */
+    --space-black: 0 0% 0%;
+    --deep-space: 215 100% 8%;
+    --cyber-blue: 210 100% 26%;
+    --matrix-green: 120 100% 50%;
+    --neon-cyan: 180 100% 50%;
+    --plasma-purple: 270 100% 60%;
+    --energy-yellow: 50 100% 60%;
+    
+    /* Background system */
+    --background: var(--space-black);
+    --background-secondary: var(--deep-space);
+    --foreground: 0 0% 98%;
+    
+    /* Interactive elements */
+    --primary: var(--neon-cyan);
+    --primary-foreground: var(--space-black);
+    --secondary: var(--cyber-blue);
+    --secondary-foreground: 0 0% 98%;
+    
+    /* Cards and surfaces */
+    --card: 215 50% 5%;
+    --card-foreground: 0 0% 95%;
+    --card-border: var(--neon-cyan);
+    
+    /* Form elements */
+    --input: 215 30% 12%;
+    --input-border: 180 50% 40%;
+    --input-focus: var(--neon-cyan);
+    --ring: var(--neon-cyan);
+    
+    /* Status colors */
+    --success: var(--matrix-green);
+    --warning: var(--energy-yellow);
+    --destructive: 0 84% 60%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--space-black)), hsl(var(--deep-space)) 50%, hsl(215 30% 12%) 100%);
+    --gradient-cosmic: linear-gradient(45deg, hsl(var(--cyber-blue)), hsl(var(--plasma-purple)));
+    --gradient-matrix: linear-gradient(180deg, transparent, hsl(var(--matrix-green) / 0.1));
+    --gradient-card: linear-gradient(145deg, hsl(215 40% 8%) 0%, hsl(215 30% 12%) 100%);
+    
+    /* Glows and shadows */
+    --glow-cyan: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+    --glow-matrix: 0 0 30px hsl(var(--matrix-green) / 0.3);
+    --glow-plasma: 0 0 40px hsl(var(--plasma-purple) / 0.4);
+    --shadow-elevated: 0 25px 50px -12px hsl(var(--space-black) / 0.8);
+    
+    --radius: 0.75rem;
+  }
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    background: var(--gradient-hero);
+    color: hsl(var(--foreground));
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+/* Matrix Code Rain Effect */
+@layer components {
+  .matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 98px,
+        hsl(var(--matrix-green) / 0.03) 100px
+      );
+    animation: matrix-fall 20s linear infinite;
+    z-index: 0;
+  }
+  
+  .matrix-rain::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-image: 
+      radial-gradient(circle at 20% 80%, hsl(var(--matrix-green) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(var(--matrix-green) / 0.1) 0%, transparent 50%);
+    animation: matrix-particles 25s ease-in-out infinite;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  @keyframes matrix-fall {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+  
+  @keyframes matrix-particles {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(30px, -30px) rotate(120deg); }
+    66% { transform: translate(-20px, 20px) rotate(240deg); }
+  }
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+  /* Typewriter Effect */
+  .typewriter {
+    overflow: hidden;
+    border-right: 3px solid hsl(var(--matrix-green));
+    white-space: nowrap;
+    animation: 
+      typing 3.5s steps(40, end),
+      blink-caret 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: hsl(var(--matrix-green)); }
+  }
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+  /* 3D Card Hover Effects */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .card-3d:hover {
+    transform: perspective(1000px) rotateX(15deg) rotateY(-15deg) translateZ(50px);
+    box-shadow: 
+      var(--shadow-elevated),
+      var(--glow-cyan);
+  }
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+  /* Hexagon 3D Cards */
+  .hexagon-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .hexagon-card:hover {
+    transform: perspective(1000px) rotateX(20deg) rotateY(-20deg) translateZ(80px);
+    box-shadow: 
+      0 50px 100px -20px hsl(var(--neon-cyan) / 0.4),
+      var(--glow-cyan);
+  }
+  
+  .hexagon-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: var(--gradient-cosmic);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .hexagon-card:hover::before {
+    opacity: 1;
+  }
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+  /* Glitch Effect */
+  .glitch {
+    position: relative;
+  }
+  
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .glitch::before {
+    animation: glitch-1 0.3s ease-in-out;
+    color: hsl(var(--neon-cyan));
+    z-index: -1;
+  }
+  
+  .glitch::after {
+    animation: glitch-2 0.3s ease-in-out;
+    color: hsl(var(--plasma-purple));
+    z-index: -2;
+  }
+  
+  @keyframes glitch-1 {
+    0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0); }
+    15%, 49% { transform: translate(-2px, 2px); }
+  }
+  
+  @keyframes glitch-2 {
+    0%, 20%, 21%, 62%, 63%, 99%, 100% { transform: translate(0); }
+    21%, 62% { transform: translate(2px, -2px); }
+  }
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+  /* Energy Waves */
+  .energy-waves {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .energy-waves::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, hsl(var(--neon-cyan) / 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: energy-pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes energy-pulse {
+    0%, 100% { 
+      transform: translate(-50%, -50%) scale(1); 
+      opacity: 1; 
+    }
+    50% { 
+      transform: translate(-50%, -50%) scale(3); 
+      opacity: 0; 
+    }
+  }
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+  /* Particle System */
+  .particles {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .particles::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, hsl(var(--matrix-green) / 0.1) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px;
+    animation: particle-float 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes particle-float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(20px, -20px); }
+    50% { transform: translate(-10px, 10px); }
+    75% { transform: translate(15px, -15px); }
+  }
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+  /* Custom Cursor */
+  .custom-cursor {
+    cursor: none;
+  }
+  
+  .cursor-dot {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: hsl(var(--neon-cyan));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease;
+  }
+  
+  .cursor-outline {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid hsl(var(--neon-cyan) / 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+  }
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Form Elements */
+  .form-input {
+    background: hsl(var(--input));
+    border: 1px solid hsl(var(--input-border));
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: hsl(var(--input-focus));
+    box-shadow: 0 0 0 2px hsl(var(--input-focus) / 0.2);
+    background: hsl(var(--input));
+  }
+  
+  .form-button {
+    background: var(--gradient-cosmic);
+    border: 1px solid hsl(var(--neon-cyan));
+    color: hsl(var(--foreground));
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .form-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glow-cyan);
+  }
+  
+  .form-button.selected {
+    background: hsl(var(--neon-cyan));
+    color: hsl(var(--space-black));
+    box-shadow: var(--glow-cyan);
+  }
+
+  /* Counter Animation */
+  .counter {
+    transition: all 0.3s ease;
+  }
+
+  /* Responsive Optimizations */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
