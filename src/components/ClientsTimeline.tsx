@@ -191,12 +191,6 @@ const ClientsTimeline = () => {
                     </p>
                   </div>
 
-                  {/* Hover Effect Numbers */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className={`text-4xl font-bold text-${project.color}/20`}>
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                  </div>
                 </div>
               </div>
             ))}
