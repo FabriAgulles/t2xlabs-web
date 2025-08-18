@@ -27,6 +27,10 @@ const HeroSection = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToClients = () => {
+    document.getElementById('clients-timeline')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden particles energy-waves">
       {/* Geometric 3D Center Element */}
@@ -74,6 +78,7 @@ const HeroSection = () => {
             </Button>
             
             <Button 
+              onClick={scrollToClients}
               variant="outline"
               className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-8 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
             >

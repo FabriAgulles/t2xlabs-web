@@ -66,12 +66,12 @@ const FooterSection = () => {
               <div className="flex items-center space-x-3 group cursor-pointer">
                 <Linkedin className="h-5 w-5 text-plasma-purple group-hover:animate-pulse" />
                 <a 
-                  href="https://www.linkedin.com/in/fabricio-agulles-projectmanager" 
+                  href="https://www.linkedin.com/company/t2xlabs/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-foreground/80 hover:text-plasma-purple transition-colors duration-300"
                 >
-                  Fabricio Agulles - Project Manager
+                  t2xLabs Company
                 </a>
               </div>
 

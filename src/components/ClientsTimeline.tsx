@@ -108,7 +108,7 @@ const ClientsTimeline = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-deep-space/30 to-transparent relative overflow-hidden" ref={timelineRef}>
+    <section id="clients-timeline" className="py-20 bg-gradient-to-b from-deep-space/30 to-transparent relative overflow-hidden" ref={timelineRef}>
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
