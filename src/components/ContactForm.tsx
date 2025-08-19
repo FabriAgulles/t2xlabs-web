@@ -72,15 +72,39 @@ const ContactForm = () => {
     setShowPortal(true);
 
     try {
-      const response = await fetch('http://localhost:5678/webhook/lovable', {
+      // CREDENCIALES DE AIRTABLE
+      const AIRTABLE_BASE_ID = 'appc5UH3PH6nQ2ODY';
+      const AIRTABLE_TOKEN = 'patCVfpSpBT06JJ6B.77cdf2d806a2fc977701d50fe20bdf7a39876208fbf41f359e42b4f199fd9bd2';
+      
+      console.log('🚀 Enviando a Airtable...', formData);
+      
+      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Leads`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          records: [{
+            fields: {
+              Nombre: formData.nombre,
+              Email: formData.email,
+              Empresa: formData.empresa,
+              TamañoEmpresa: formData.companySize || '',
+              Presupuesto: formData.budget || '',
+              InterésPrincipal: formData.interest || '',
+              Mensaje: formData.mensaje || '',
+              Estado: 'Nuevo'
+            }
+          }]
+        })
       });
 
+      const result = await response.json();
+
       if (response.ok) {
+        console.log('✅ Lead guardado en Airtable:', result);
+        
         toast({
           title: "¡Transformación iniciada! 🚀",
           description: "Nos contactaremos contigo en las próximas 24 horas.",
@@ -98,12 +122,14 @@ const ContactForm = () => {
           mensaje: ''
         });
       } else {
-        throw new Error('Error en el envío');
+        console.error('❌ Error Airtable:', result);
+        throw new Error(`Error Airtable: ${result.error?.message || 'Error desconocido'}`);
       }
     } catch (error) {
+      console.error('❌ Error completo:', error);
       toast({
         title: "Error de transmisión",
-        description: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.",
+        description: "Hubo un problema al enviar tu mensaje. Revisa la consola para más detalles.",
         variant: "destructive"
       });
     } finally {
