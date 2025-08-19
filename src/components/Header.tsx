@@ -10,7 +10,7 @@ const Header = () => {
             <img 
               src="https://imgur.com/8RDlmvu.png" 
               alt="t2xLabs Logo" 
-              className="h-10 w-auto group-hover:scale-110 transition-transform duration-300"
+              className="h-14 w-auto group-hover:scale-110 transition-transform duration-300"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
