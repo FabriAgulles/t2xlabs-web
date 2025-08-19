@@ -71,7 +71,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Button 
               onClick={scrollToContact}
-              className="group bg-gradient-cosmic border border-neon-cyan text-foreground px-8 py-4 text-lg font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
+              className="group bg-gradient-cosmic border border-neon-cyan text-foreground px-4 py-4 text-lg font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
             >
               <Zap className="mr-2 h-5 w-5 group-hover:animate-pulse" />
               INICIAR TRANSFORMACIÓN
@@ -81,7 +81,7 @@ const HeroSection = () => {
             <Button 
               onClick={scrollToClients}
               variant="outline"
-              className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-8 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
+              className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-4 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
             >
               VER CASOS DE ÉXITO
             </Button>
