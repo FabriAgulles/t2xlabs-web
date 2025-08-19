@@ -284,7 +284,7 @@ const ContactForm = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="group bg-gradient-cosmic border-2 border-neon-cyan text-foreground px-4 py-4 text-md font-bold rounded-xl hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                className="group bg-gradient-cosmic border-2 border-neon-cyan text-foreground w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-4 text-sm sm:text-md font-bold rounded-xl hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
               >
                 {isSubmitting ? (
                   <>
