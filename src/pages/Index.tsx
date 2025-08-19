@@ -22,11 +22,21 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="relative z-10">
-        <HeroSection />
-        <CompetitiveAdvantages />
-        <ServicesIA />
-        <ClientsTimeline />
-        <ContactForm />
+        <div id="hero">
+          <HeroSection />
+        </div>
+        <div id="advantages">
+          <CompetitiveAdvantages />
+        </div>
+        <div id="services">
+          <ServicesIA />
+        </div>
+        <div id="clients">
+          <ClientsTimeline />
+        </div>
+        <div id="contact">
+          <ContactForm />
+        </div>
         <FooterSection />
       </main>
     </div>
