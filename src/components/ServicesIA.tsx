@@ -90,9 +90,9 @@ const ServicesIA = () => {
 
   const getCardTransform = (index: number) => {
     if (hoveredCard === index) {
-      const offsetX = (mousePosition.x - 300) / 20;
-      const offsetY = (mousePosition.y - 200) / 20;
-      return `perspective(1000px) rotateX(${-offsetY}deg) rotateY(${offsetX}deg) translateZ(20px)`;
+      const offsetX = Math.max(-5, Math.min(5, (mousePosition.x - 300) / 60));
+      const offsetY = Math.max(-5, Math.min(5, (mousePosition.y - 200) / 60));
+      return `perspective(1000px) rotateX(${-offsetY}deg) rotateY(${offsetX}deg) translateZ(8px)`;
     }
     return 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
   };
