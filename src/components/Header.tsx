@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-space-black/80 backdrop-blur-md border-b border-neon-cyan/20">
+    <header className="absolute top-0 left-0 right-0 z-50 bg-space-transparent/80">
       <div className="container mx-auto px-6 py-2">
         <div className="flex items-center">
           {/* Logo */}
@@ -10,7 +10,7 @@ const Header = () => {
             <img 
               src="https://imgur.com/8RDlmvu.png" 
               alt="t2xLabs Logo" 
-              className="h-10 w-auto group-hover:scale-110 transition-transform duration-300"
+              className="h-14 w-auto group-hover:scale-110 transition-transform duration-300"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
