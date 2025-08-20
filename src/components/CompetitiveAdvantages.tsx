@@ -13,18 +13,18 @@ interface AdvantageData {
 const advantages: AdvantageData[] = [
   {
     icon: <Clock className="w-8 h-8" />,
-    title: "AHORRO DE TIEMPO Y COSTOS",
-    description: "Reduce tareas manuales hasta un 80%",
-    metric: "200-300%",
-    detail: "ROI típico en primer año",
+    title: "AHORRO DE TIEMPO",
+    description: "Reduce tareas repetitivas y libera a tu equipo para lo que realmente importa",
+    metric: "150-300%",
+    detail: "Incremento en productividad del equipo",
     color: "neon-cyan"
   },
   {
     icon: <TrendingUp className="w-8 h-8" />,
     title: "ESCALABILIDAD INTELIGENTE", 
-    description: "Procesa 10x más volumen sin aumentar personal",
-    metric: "10x",
-    detail: "Crecimiento sin límites operativos",
+    description: "Expande tu capacidad operativa sin aumentar tu tripulación",
+    metric: "3-5x",
+    detail: "Más resultados con el mismo personal",
     color: "matrix-green"
   },
   {
@@ -32,7 +32,7 @@ const advantages: AdvantageData[] = [
     title: "MEJOR EXPERIENCIA DE USUARIO",
     description: "Respuestas automáticas 24/7 para tus clientes",
     metric: "24/7",
-    detail: "Tiempo de respuesta: segundos vs horas", 
+    detail: "Tiempo de respuesta: segundos vs horas/días", 
     color: "plasma-purple"
   },
   {
@@ -115,12 +115,11 @@ const CompetitiveAdvantages = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-cosmic">
-              VENTAJAS COMPETITIVAS
+              DESPEGA CON NOSOTROS 🚀
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Mientras tu competencia sigue haciendo las cosas "a la antigua", 
-            tú ya estarás viviendo en el futuro
+            Mientras tu competencia planifica el viaje, tu ya estarás en órbita.
           </p>
         </div>
 
@@ -179,13 +178,13 @@ const CompetitiveAdvantages = () => {
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <p className="text-lg text-foreground/70 mb-6">
-            ¿Listo para obtener estas ventajas competitivas?
+            ¿Listo para iniciar el despegue?
           </p>
           <button 
             onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-3 bg-gradient-cosmic border border-neon-cyan rounded-lg text-foreground font-semibold hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
           >
-            DESCUBRE CÓMO IMPLEMENTARLO
+            INICIAR LANZAMIENTO
           </button>
         </div>
       </div>
