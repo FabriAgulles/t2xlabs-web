@@ -72,9 +72,18 @@ const ContactForm = () => {
     setShowPortal(true);
 
     try {
-      // CREDENCIALES DE AIRTABLE
-      const AIRTABLE_BASE_ID = 'appc5UH3PH6nQ2ODY';
-      const AIRTABLE_TOKEN = 'patCVfpSpBT06JJ6B.77cdf2d806a2fc977701d50fe20bdf7a39876208fbf41f359e42b4f199fd9bd2';
+      // ✅ CREDENCIALES SEGURAS DESDE VARIABLES DE ENTORNO
+      const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
+      const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
+      
+      // Validación de que las variables existen
+      if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
+        console.error('❌ Variables de entorno faltantes:', {
+          BASE_ID: !!AIRTABLE_BASE_ID,
+          TOKEN: !!AIRTABLE_TOKEN
+        });
+        throw new Error('Faltan configuraciones de Airtable. Verifica tu archivo .env y reinicia el servidor.');
+      }
       
       console.log('🚀 Enviando a Airtable...', formData);
       
