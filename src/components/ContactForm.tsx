@@ -50,10 +50,10 @@ const ContactForm = () => {
     e.preventDefault();
     
     // Validation
-    if (!formData.nombre || !formData.email || !formData.empresa) {
+    if (!formData.nombre || !formData.email || !formData.empresa || !formData.companySize || !formData.budget || !formData.interest) {
       toast({
         title: "Campos requeridos",
-        description: "Por favor completa nombre, email y empresa.",
+        description: "Por favor completa todos los campos obligatorios incluyendo tamaño de empresa, presupuesto e interés principal.",
         variant: "destructive"
       });
       return;
@@ -217,7 +217,7 @@ const ContactForm = () => {
                 {/* Company Size */}
                 <div>
                   <label className="block text-sm font-medium text-foreground/80 mb-3">
-                    Tamaño de Empresa
+                    Tamaño de Empresa *
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {companySizes.map((size) => (
@@ -238,7 +238,7 @@ const ContactForm = () => {
                 {/* Budget */}
                 <div>
                   <label className="block text-sm font-medium text-foreground/80 mb-3">
-                    Presupuesto
+                    Presupuesto *
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {budgets.map((budget) => (
@@ -259,7 +259,7 @@ const ContactForm = () => {
                 {/* Interest */}
                 <div>
                   <label className="block text-sm font-medium text-foreground/80 mb-3">
-                    Interés Principal
+                    Interés Principal *
                   </label>
                   <div className="space-y-2">
                     {interests.map((interest) => (

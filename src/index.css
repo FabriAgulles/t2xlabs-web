@@ -160,7 +160,7 @@
   }
   
   .hexagon-card:hover {
-    transform: perspective(1000px) rotateX(20deg) rotateY(-20deg) translateZ(80px);
+    transform: perspective(1000px) rotateX(16deg) rotateY(-16deg) translateZ(64px);
     box-shadow: 
       0 50px 100px -20px hsl(var(--neon-cyan) / 0.4),
       var(--glow-cyan);
