@@ -90,16 +90,16 @@ const HeroSection = () => {
           {/* Stats Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-neon-cyan mb-2">80%</div>
-              <div className="text-foreground/70">Reducción en tareas manuales</div>
+              <div className="text-3xl md:text-4xl font-bold text-neon-cyan mb-2">70%</div>
+              <div className="text-foreground/70">Reducción en tareas repetitivas</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-matrix-green mb-2">300%</div>
-              <div className="text-foreground/70">ROI típico primer año</div>
+              <div className="text-3xl md:text-4xl font-bold text-matrix-green mb-2">80%</div>
+              <div className="text-foreground/70">Ahorro en costes operativos</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-plasma-purple mb-2">24/7</div>
-              <div className="text-foreground/70">Atención automatizada</div>
+              <div className="text-foreground/70">Atención automatizada con IA</div>
             </div>
           </div>
         </div>
