@@ -40,8 +40,8 @@ const services: ServiceData[] = [
   {
     icon: <Mail className="w-8 h-8" />,
     title: "EMAIL Y COMUNICACIÓN AUTOMATIZADA",
-    description: "Multiplica tus ventas con mensajes automáticos que llegan al cliente correcto en el momento exacto",
-    visual: "Emails personalizados adaptándose al cliente y mostrando un aumento de conversiones",
+    description: "Multiplica tus ventas con correos automáticos que cierran clientes",
+    visual: "Automatiza tus emails con IA, aumenta tus ventas",
     features: [
       "Personalización inteligente",
       "Correos que convierten prospectos en clientes",
