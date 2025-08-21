@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Clock, TrendingUp, Users, Crown } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Crown } from 'lucide-react';
 
 interface AdvantageData {
   icon: React.ReactNode;
