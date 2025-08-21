@@ -22,17 +22,17 @@ const projects: ProjectData[] = [
   {
     icon: <Sparkles className="w-6 h-6" />,
     title: "Asistente Personal IA",
-    description: "Gestión de agenda, emails y consultas profesionales a documentos propios sin intervención manual",
-    impact: "Ahorro de 20 horas semanales por ejecutivo",
-    metric: "20h",
+    description: "Un asistente que gestiona agenda, emails y consultas a documentos propios automáticamente",
+    impact: "Ahorro de 10 horas semanales por ejecutivo",
+    metric: "10h",
     color: "matrix-green"
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
     title: "Leads Generator",
-    description: "Organización y gestión automática de contactos empresariales en eventos",
-    impact: "Incremento del 300% en calidad de leads",
-    metric: "300%",
+    description: "Formularios web que califican leads y los envían directo a tu CRM.",
+    impact: "Incremento del 40% en leads organizados y listos para ventas.",
+    metric: "40%",
     color: "plasma-purple"
   },
   {
@@ -118,7 +118,7 @@ const ClientsTimeline = () => {
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-4xl mx-auto">
-            Empresas que ya implementaron nuestras soluciones, procesan más leads, cierran más ventas y superan a sus competidores cada mes.".
+            Empresas que ya implementaron nuestras soluciones, procesan más leads, cierran más ventas y superan a sus competidores cada mes.
           </p>
         </div>
 
