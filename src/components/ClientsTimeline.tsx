@@ -114,12 +114,11 @@ const ClientsTimeline = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-cosmic">
-              CLIENTES QUE CONFÍAN EN NOSOTROS
+              CASOS DE ÉXITO
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-4xl mx-auto">
-            Empresas que ya viven en el futuro gracias a nuestras soluciones. 
-            Sus competidores siguen haciendo las cosas "a la antigua".
+            Empresas que ya implementaron nuestras soluciones, procesan más leads, cierran más ventas y superan a sus competidores cada mes.".
           </p>
         </div>
 
