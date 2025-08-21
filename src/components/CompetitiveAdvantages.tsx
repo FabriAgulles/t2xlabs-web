@@ -30,9 +30,9 @@ const advantages: AdvantageData[] = [
   {
     icon: <Users className="w-8 h-8" />,
     title: "MÁS LEADS, MÁS CLIENTES",
-    description: "Atiende prospectos en todos tus canales. Nunca pierdas una venta por no responder a tiempo",
+    description: "Nunca pierdas una venta por no responder a tiempo",
     metric: "24/7",
-    detail: "Respuestas en segundos vs horas/días", 
+    detail: "Atiende prospectos en todos tus canales. ", 
     color: "plasma-purple"
   },
   {
