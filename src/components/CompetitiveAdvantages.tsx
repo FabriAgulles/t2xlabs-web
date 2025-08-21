@@ -38,7 +38,7 @@ const advantages: AdvantageData[] = [
   {
     icon: <Crown className="w-8 h-8" />,
     title: "VENTAJA COMPETITIVA REAL",
-    description: "Implementación en semanas, no meses",
+    description: "Implementación del desarrollo en semanas, no meses \n",
     metric: "Semanas",
     detail: "Tecnología que tu competencia no tiene",
     color: "energy-yellow"
