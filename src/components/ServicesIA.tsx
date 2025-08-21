@@ -13,9 +13,9 @@ interface ServiceData {
 const services: ServiceData[] = [
   {
     icon: <Workflow className="w-8 h-8" />,
-    title: "AUTOMATIZACIÓN DE PROCESOS CON N8N + APIS",
+    title: "AUTOMATIZACIÓN DE PROCESOS CON N8N",
     description: "Conecta todas tus herramientas en flujos inteligentes",
-    visual: "Diagrama de workflow con datos fluyendo",
+    visual: "Tus sistemas trabajando solos, en perfecta sincronía",
     features: [
       "Flujos de trabajo automatizados",
       "Integración entre aplicaciones",
@@ -27,12 +27,12 @@ const services: ServiceData[] = [
   {
     icon: <Bot className="w-8 h-8" />,
     title: "AGENTES Y CHATBOTS CON IA",
-    description: "Asistentes que entienden tu negocio y atienden 24/7",
-    visual: "Interface de chat con respuestas contextuales",
+    description: "Chat en vivo respondiendo clientes y generando leads automáticamente",
+    visual: "Convierte prospectos en clientes con asistentes 24/7",
     features: [
       "Atención al cliente 24/7",
-      "Respuestas contextuales",
-      "Aprendizaje continuo",
+      "Agenda citas automáticamente",
+      "Conversaciones inteligentes",
       "Integración con CRM"
     ],
     color: "matrix-green"
