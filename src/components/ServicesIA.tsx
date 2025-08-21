@@ -27,7 +27,7 @@ const services: ServiceData[] = [
   {
     icon: <Bot className="w-8 h-8" />,
     title: "AGENTES Y CHATBOTS CON IA",
-    description: "Chat en vivo respondiendo clientes y generando leads automáticamente",
+    description: "Chat en vivo respondiendo a clientes y generando leads automáticamente",
     visual: "Convierte prospectos en clientes con asistentes 24/7",
     features: [
       "Atención al cliente 24/7",
