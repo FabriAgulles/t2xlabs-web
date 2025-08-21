@@ -29,10 +29,10 @@ const advantages: AdvantageData[] = [
   },
   {
     icon: <Users className="w-8 h-8" />,
-    title: "MEJOR EXPERIENCIA DE USUARIO",
-    description: "Respuestas automáticas 24/7 para tus clientes",
+    title: "MÁS LEADS, MÁS CLIENTES",
+    description: "Atiende prospectos en todos tus canales. Nunca pierdas una venta por no responder a tiempo.",
     metric: "24/7",
-    detail: "Tiempo de respuesta: segundos vs horas/días", 
+    detail: "Respuestas en segundos vs horas/días.", 
     color: "plasma-purple"
   },
   {
