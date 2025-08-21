@@ -246,7 +246,7 @@ const ContactForm = () => {
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-neon-cyan mb-6 flex items-center">
                   <Zap className="mr-2" />
-                  Parámetros de Misión
+                  Detalles del Proyecto
                 </h3>
 
                 {/* Company Size */}
