@@ -39,16 +39,16 @@ const projects: ProjectData[] = [
     icon: <Mail className="w-6 h-6" />,
     title: "IA Email Marketing",
     description: "Correos transaccionales con textos que se adaptan al perfil del usuario",
-    impact: "Mejora del 250% en tasa de apertura",
-    metric: "250%",
+    impact: "70% en tasa de clics",
+    metric: "70%",
     color: "energy-yellow"
   },
   {
     icon: <Database className="w-6 h-6" />,
-    title: "Mega Agente IA",
-    description: "Integración completa: Gmail, Drive, Trello, Sheets, Google search y base de datos en una sola interfaz + Chatbot",
-    impact: "Productividad aumentada en 400%",
-    metric: "400%",
+    title: "Agente IA - Todo en uno",
+    description: "Plataforma que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona información y tareas automáticamente.",
+    impact: "Productividad aumentada en 200%",
+    metric: "200%",
     color: "neon-cyan"
   }
 ];
