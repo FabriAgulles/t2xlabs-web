@@ -14,7 +14,7 @@ const advantages: AdvantageData[] = [
   {
     icon: <DollarSign className="w-8 h-8" />,
     title: "MÁS INGRESOS, MENOS ESFUERZO",
-    description: "Automatiza tareas que te roban tiempo facturable y enfócate en generar más dinero",
+    description: "Automatiza tareas y enfócate en generar más dinero.",
     metric: "80%-150%",
     detail: "Incremento en ingresos por automatizaciones",
     color: "neon-cyan"
@@ -22,17 +22,17 @@ const advantages: AdvantageData[] = [
   {
     icon: <TrendingUp className="w-8 h-8" />,
     title: "ESCALABILIDAD INTELIGENTE", 
-    description: "Expande tu capacidad operativa sin aumentar tu tripulación",
+    description: "Expande tu negocio sin aumentar la nómina",
     metric: "3-5x",
-    detail: "Más resultados con el mismo personal",
+    detail: "Más ventas con el mismo personal",
     color: "matrix-green"
   },
   {
     icon: <Users className="w-8 h-8" />,
     title: "MÁS LEADS, MÁS CLIENTES",
-    description: "Atiende prospectos en todos tus canales. Nunca pierdas una venta por no responder a tiempo.",
+    description: "Atiende prospectos en todos tus canales. Nunca pierdas una venta por no responder a tiempo",
     metric: "24/7",
-    detail: "Respuestas en segundos vs horas/días.", 
+    detail: "Respuestas en segundos vs horas/días", 
     color: "plasma-purple"
   },
   {
