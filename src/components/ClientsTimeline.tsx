@@ -30,7 +30,7 @@ const projects: ProjectData[] = [
   {
     icon: <TrendingUp className="w-6 h-6" />,
     title: "Leads Generator",
-    description: "Formularios web que califican leads y los envían directo a tu CRM.",
+    description: "Formularios web que califican leads y los envían directo a tu CRM",
     impact: "Incremento del 40% en leads organizados y listos para ventas.",
     metric: "40%",
     color: "plasma-purple"
@@ -46,7 +46,7 @@ const projects: ProjectData[] = [
   {
     icon: <Database className="w-6 h-6" />,
     title: "Agente IA - Todo en uno",
-    description: "Plataforma que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona información y tareas automáticamente.",
+    description: "Plataforma que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona información y tareas automáticamente",
     impact: "Productividad aumentada en 200%",
     metric: "200%",
     color: "neon-cyan"
