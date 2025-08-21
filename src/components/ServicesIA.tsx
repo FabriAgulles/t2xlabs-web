@@ -40,13 +40,13 @@ const services: ServiceData[] = [
   {
     icon: <Mail className="w-8 h-8" />,
     title: "EMAIL Y COMUNICACIÓN AUTOMATIZADA",
-    description: "Mensajes personalizados con IA que se envían en el momento perfecto",
-    visual: "Templates de email adaptándose al usuario",
+    description: "Multiplica tus ventas con mensajes automáticos que llegan al cliente correcto en el momento exacto",
+    visual: "Emails personalizados adaptándose al cliente y mostrando un aumento de conversiones",
     features: [
       "Personalización inteligente",
-      "Timing optimizado",
-      "Segmentación automática",
-      "Métricas avanzadas"
+      "Correos que convierten prospectos en clientes",
+      "Segmentación inteligente según prospecto",
+      "Aumento en la retención de clientes"
     ],
     color: "plasma-purple"
   },
@@ -57,9 +57,9 @@ const services: ServiceData[] = [
     visual: "Red de aplicaciones sincronizándose en tiempo real",
     features: [
       "Sincronización en tiempo real",
-      "API unificada",
-      "Dashboard centralizado",
-      "Monitoreo continuo"
+      "Operación centralizada en un solo lugar",
+      "Mejora la toma de decisiónes con datos",
+      "Conecta todas tus plataformas"
     ],
     color: "energy-yellow"
   }
