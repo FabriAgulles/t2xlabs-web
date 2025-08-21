@@ -12,11 +12,11 @@ interface AdvantageData {
 
 const advantages: AdvantageData[] = [
   {
-    icon: <Clock className="w-8 h-8" />,
-    title: "AHORRO DE TIEMPO",
-    description: "Reduce tareas repetitivas y libera a tu equipo para lo que realmente importa",
-    metric: "150-300%",
-    detail: "Incremento en productividad del equipo",
+    icon: <DollarSign className="w-8 h-8" />,
+    title: "MÁS INGRESOS, MENOS ESFUERZO",
+    description: "Automatiza tareas que te roban tiempo facturable y enfócate en generar más dinero",
+    metric: "80%-150%",
+    detail: "Incremento en ingresos por automatizaciones",
     color: "neon-cyan"
   },
   {
