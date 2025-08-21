@@ -163,11 +163,11 @@ const ContactForm = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-cosmic">
-              INTERFAZ DE ACCESO ESPACIAL
+              ACCEDE A TU TRANSFORMACIÓN EMPRESARIAL
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Completa los datos de tu misión para iniciar la transformación de tu empresa
+            Déjanos tus datos y te mostraremos cómo escalar tu negocio
           </p>
         </div>
 
