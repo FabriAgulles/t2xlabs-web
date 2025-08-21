@@ -199,8 +199,8 @@ const ClientsTimeline = () => {
         {/* Summary Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
           <div className="text-center bg-gradient-card border border-card-border rounded-xl p-6">
-            <div className="text-3xl font-bold text-neon-cyan mb-2">15+</div>
-            <div className="text-foreground/70">Proyectos Completados</div>
+            <div className="text-3xl font-bold text-neon-cyan mb-2">30</div>
+            <div className="text-foreground/70">Días de garantía</div>
           </div>
           <div className="text-center bg-gradient-card border border-card-border rounded-xl p-6">
             <div className="text-3xl font-bold text-matrix-green mb-2">100%</div>
