@@ -108,7 +108,7 @@ const ServicesIA = () => {
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Tecnología que reduce costos y multiplica tus ventas
+            Tecnología que reduce costos y multiplica tus ventas.
           </p>
         </div>
 
