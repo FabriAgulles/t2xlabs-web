@@ -167,7 +167,7 @@ const ContactForm = () => {
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Déjanos tus datos y te mostraremos cómo escalar tu negocio
+            Déjanos tus datos y te mostraremos cómo escalar tu negocio.
           </p>
         </div>
 
@@ -341,7 +341,7 @@ const ContactForm = () => {
               </Button>
               
               <p className="text-sm text-foreground/60 mt-4">
-                Te contactaremos en las próximas 24 horas para discutir tu proyecto
+                Te contactaremos en las próximas 24 horas para discutir tu proyecto.
               </p>
             </div>
           </form>
