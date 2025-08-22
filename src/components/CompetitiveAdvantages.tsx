@@ -14,7 +14,7 @@ const advantages: AdvantageData[] = [
   {
     icon: <DollarSign className="w-8 h-8" />,
     title: "MÁS INGRESOS, MENOS ESFUERZO",
-    description: "Automatiza tareas y enfócate en generar más dinero.",
+    description: "Automatiza tareas y enfócate en generar más dinero",
     metric: "80%-150%",
     detail: "Incremento en ingresos por automatizaciones",
     color: "neon-cyan"
@@ -32,7 +32,7 @@ const advantages: AdvantageData[] = [
     title: "MÁS LEADS, MÁS CLIENTES",
     description: "Nunca pierdas una venta por no responder a tiempo",
     metric: "24/7",
-    detail: "Atiende prospectos en todos tus canales. ", 
+    detail: "Atiende prospectos en todos tus canales ", 
     color: "plasma-purple"
   },
   {
