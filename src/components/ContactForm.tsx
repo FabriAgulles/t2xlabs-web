@@ -98,8 +98,8 @@ const ContactForm = () => {
             Presupuesto: formData.budget || '',
             InterésPrincipal: formData.interest || '',
             Mensaje: formData.mensaje || '',
-            Estado: 'Nuevo',
-            'fecha.creacion': new Date().toISOString() // YYYY-MM-DDTHH:mm:ss.sssZ
+            Estado: 'Nuevo'
+            // fecha.creacion se auto-genera en Airtable (campo computado)
           }
         }]
       };
