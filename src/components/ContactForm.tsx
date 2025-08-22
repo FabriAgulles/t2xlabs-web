@@ -72,7 +72,7 @@ const ContactForm = () => {
     setShowPortal(true);
 
     try {
-      // ✅ CREDENCIALES SEGURAS DESDE REPOSITORY SECRETS
+      // ✅ CREDENCIALES DESDE ARCHIVO .ENV LOCAL
       const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
       const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
       
@@ -82,7 +82,7 @@ const ContactForm = () => {
           BASE_ID: !!AIRTABLE_BASE_ID,
           TOKEN: !!AIRTABLE_TOKEN
         });
-        throw new Error('Variables de entorno no configuradas en Repository Secrets');
+        throw new Error('Variables de entorno no encontradas en archivo .env');
       }
       
       console.log('🚀 Enviando a Airtable...');
