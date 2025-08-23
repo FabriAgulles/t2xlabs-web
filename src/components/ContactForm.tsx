@@ -262,7 +262,7 @@ const ContactForm = () => {
                     value={formData.mensaje}
                     onChange={handleInputChange}
                     className="form-input min-h-[100px] resize-none"
-                    placeholder="Cuéntanos sobre tu proyecto..."
+                    placeholder="Cuéntanos sobre tu proyecto o idea para ayudarte con asesoramiento personalizado...."
                   />
                 </div>
               </div>
