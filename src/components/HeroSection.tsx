@@ -7,7 +7,7 @@ const HeroSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showSubtitle, setShowSubtitle] = useState(false);
   
-  const mainText = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUÉ LADO ESTAR.";
+  const mainText = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
   
   useEffect(() => {
     if (currentIndex < mainText.length) {
