@@ -83,7 +83,7 @@ const ChatWidget = () => {
 
       console.log('Payload:', payload); // Debug log
 
-      const response = await fetch('https://9879bdcf1fae.ngrok-free.app/webhook-test/49eac2cc-d2c9-4e64-a9f9-7349c5a343c3', {
+      const response = await fetch('https://9879bdcf1fae.ngrok-free.app/webhook-test/chatbot-test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,9 +97,8 @@ const ChatWidget = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Response data:', data); // Debug log
-        return data.reply || data || 'Mensaje recibido correctamente.';
+        return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
       } else {
-        console.error('HTTP error:', response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
