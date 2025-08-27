@@ -79,19 +79,22 @@ const ChatWidget = () => {
         timestamp: new Date().toISOString()
       };
 
-      const response = await fetch('http://localhost:5678/webhook/49eac2cc-d2c9-4e64-a9f9-7349c5a343c3', {
+      // URL de ngrok con autenticación Basic Auth
+      const response = await fetch('https://9879bdcf1fae.ngrok-free.app/webhook-test/49eac2cc-d2c9-4e64-a9f9-7349c5a343c3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // Autenticación Basic Auth (chatbot:secure2025)
+          'Authorization': 'Basic ' + btoa('chatbot:secure2025')
         },
         body: JSON.stringify(payload)
       });
 
       if (response.ok) {
         const data = await response.json();
-        return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
+        return data.reply || data || 'Mensaje recibido correctamente.';
       } else {
-        throw new Error('Failed to send message');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error('Error sending to webhook:', error);
@@ -120,14 +123,12 @@ const ChatWidget = () => {
     // Simulate typing and enable input
     await simulateTyping();
     
-    // Bot response after quick reply
-    const botResponse = reply.id === '1' 
-      ? 'Perfecto! Me encantaría ayudarte a agendar una demo. ¿Podrías decirme tu nombre para personalizar nuestra conversación?'
-      : 'Excelente! Estoy aquí para resolver todas tus dudas. ¿Podrías decirme tu nombre y en qué específicamente te puedo ayudar?';
+    // Send to webhook and get response
+    const botReply = await sendToWebhook(reply.text);
     
     const botMessage: Message = {
       id: crypto.randomUUID(),
-      content: botResponse,
+      content: botReply,
       isBot: true,
       timestamp: new Date().toISOString()
     };
@@ -148,13 +149,14 @@ const ChatWidget = () => {
     };
     
     setMessages(prev => [...prev, userMessage]);
+    const messageToSend = inputValue;
     setInputValue('');
 
     // Simulate typing
     await simulateTyping();
 
     // Send to webhook and get response
-    const botReply = await sendToWebhook(inputValue);
+    const botReply = await sendToWebhook(messageToSend);
     
     const botMessage: Message = {
       id: crypto.randomUUID(),
