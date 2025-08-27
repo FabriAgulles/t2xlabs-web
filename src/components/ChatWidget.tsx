@@ -79,7 +79,7 @@ const ChatWidget = () => {
         timestamp: new Date().toISOString()
       };
 
-      const response = await fetch('YOUR_N8N_WEBHOOK_URL', {
+      const response = await fetch('http://localhost:5678/webhook-test/49eac2cc-d2c9-4e64-a9f9-7349c5a343c3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
