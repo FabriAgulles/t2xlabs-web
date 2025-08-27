@@ -8,6 +8,7 @@ import ContactForm from '@/components/ContactForm';
 import FooterSection from '@/components/FooterSection';
 import CustomCursor from '@/components/CustomCursor';
 import ChatWidget from '@/components/ChatWidget';
+import BackToTop from '@/components/BackToTop';
 
 const Index = () => {
   return (
@@ -43,6 +44,9 @@ const Index = () => {
       
       {/* Chat Widget */}
       <ChatWidget />
+      
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   );
 };
