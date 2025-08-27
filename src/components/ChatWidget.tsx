@@ -88,8 +88,8 @@ const ChatWidget = () => {
       });
 
       if (response.ok) {
-        const data = await response.text();
-        return data || 'Lo siento, no pude procesar tu mensaje en este momento.';
+        const data = await response.json();
+        return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
       } else {
         throw new Error('Failed to send message');
       }
