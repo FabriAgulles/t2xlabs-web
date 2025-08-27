@@ -23,6 +23,7 @@ const ChatWidget = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [userId, setUserId] = useState<string>('');
   const [showQuickReplies, setShowQuickReplies] = useState(true);
+  const [isShaking, setIsShaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickReplies: QuickReply[] = [
@@ -57,6 +58,18 @@ const ChatWidget = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
+
+  // Shake animation every 8 seconds when widget is closed
+  useEffect(() => {
+    if (!isOpen) {
+      const interval = setInterval(() => {
+        setIsShaking(true);
+        setTimeout(() => setIsShaking(false), 400);
+      }, 8000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
 
   const sendToWebhook = async (message: string) => {
     try {
@@ -165,7 +178,9 @@ const ChatWidget = () => {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+          className={`w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 ${
+            isShaking ? 'chat-widget-shake' : ''
+          }`}
           style={{ backgroundColor: '#2563EB' }}
         >
           <Bot className="w-6 h-6 text-white" />

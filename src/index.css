@@ -346,6 +346,17 @@
   .counter {
     transition: all 0.3s ease;
   }
+  
+  /* Chat Widget Shake Animation */
+  @keyframes subtle-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+
+  .chat-widget-shake {
+    animation: subtle-shake 0.4s ease-in-out;
+  }
 
   /* Responsive Optimizations */
   @media (prefers-reduced-motion: reduce) {
