@@ -73,27 +73,33 @@ const ChatWidget = () => {
 
   const sendToWebhook = async (message: string) => {
     try {
+      console.log('Enviando mensaje a webhook:', message); // Debug log
+      
       const payload = {
         userId,
         message,
         timestamp: new Date().toISOString()
       };
 
-      // URL de ngrok con autenticación Basic Auth
+      console.log('Payload:', payload); // Debug log
+
       const response = await fetch('https://9879bdcf1fae.ngrok-free.app/webhook-test/49eac2cc-d2c9-4e64-a9f9-7349c5a343c3', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Autenticación Basic Auth (chatbot:secure2025)
           'Authorization': 'Basic ' + btoa('chatbot:secure2025')
         },
         body: JSON.stringify(payload)
       });
 
+      console.log('Response status:', response.status); // Debug log
+
       if (response.ok) {
         const data = await response.json();
+        console.log('Response data:', data); // Debug log
         return data.reply || data || 'Mensaje recibido correctamente.';
       } else {
+        console.error('HTTP error:', response.status);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
@@ -109,6 +115,8 @@ const ChatWidget = () => {
   };
 
   const handleQuickReplyClick = async (reply: QuickReply) => {
+    console.log('Quick reply clicked:', reply.text); // Debug log
+    
     // Add user message
     const userMessage: Message = {
       id: crypto.randomUUID(),
@@ -120,7 +128,7 @@ const ChatWidget = () => {
     setMessages(prev => [...prev, userMessage]);
     setShowQuickReplies(false);
     
-    // Simulate typing and enable input
+    // Simulate typing
     await simulateTyping();
     
     // Send to webhook and get response
@@ -139,6 +147,8 @@ const ChatWidget = () => {
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
+
+    console.log('Sending message:', inputValue); // Debug log
 
     // Add user message
     const userMessage: Message = {
@@ -200,7 +210,7 @@ const ChatWidget = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-card-foreground">t2xLabs</p>
-                <p className="text-xs text-success">Asistente IA – Disponible ✅</p>
+                <p className="text-xs text-success">Asistente IA - Disponible ✅</p>
               </div>
             </div>
             <Button
