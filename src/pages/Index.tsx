@@ -7,6 +7,7 @@ import ClientsTimeline from '@/components/ClientsTimeline';
 import ContactForm from '@/components/ContactForm';
 import FooterSection from '@/components/FooterSection';
 import CustomCursor from '@/components/CustomCursor';
+import ChatWidget from '@/components/ChatWidget';
 
 const Index = () => {
   return (
@@ -39,6 +40,9 @@ const Index = () => {
         </div>
         <FooterSection />
       </main>
+      
+      {/* Chat Widget */}
+      <ChatWidget />
     </div>
   );
 };
