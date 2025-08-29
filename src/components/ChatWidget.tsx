@@ -235,9 +235,10 @@ const ChatWidget = () => {
                       ? 'bg-secondary/20 text-card-foreground'
                       : 'bg-primary text-primary-foreground'
                   }`}
-                >
-                  {message.content}
-                </div>
+                  dangerouslySetInnerHTML={{
+                    __html: message.content
+                  }}
+                />
               </div>
             ))}
 
