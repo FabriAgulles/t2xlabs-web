@@ -27,7 +27,7 @@ const ChatWidget = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickReplies: QuickReply[] = [
-    { id: '1', text: 'Agendar demo' },
+    { id: '1', text: 'Asesoría' },
     { id: '2', text: 'Consultas' }
   ];
 
@@ -46,7 +46,7 @@ const ChatWidget = () => {
     if (isOpen && messages.length === 0) {
       const initialMessage: Message = {
         id: crypto.randomUUID(),
-        content: '👋 Hola, soy Titu el asistente de t2xLabs. ¿En qué puedo ayudarte hoy?',
+        content: '👋 Hola, soy Titu ¿En qué puedo ayudarte hoy?',
         isBot: true,
         timestamp: new Date().toISOString()
       };
@@ -59,13 +59,13 @@ const ChatWidget = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Shake animation every 8 seconds when widget is closed
+  // Shake animation every 6 seconds when widget is closed
   useEffect(() => {
     if (!isOpen) {
       const interval = setInterval(() => {
         setIsShaking(true);
-        setTimeout(() => setIsShaking(false), 400);
-      }, 8000);
+        setTimeout(() => setIsShaking(false), 600);
+      }, 6000);
 
       return () => clearInterval(interval);
     }
@@ -208,8 +208,8 @@ const ChatWidget = () => {
                 <Bot className="w-4 h-4 text-primary-foreground" />
               </div>
               <div>
-                <p className="text-sm font-medium text-card-foreground">t2xLabs</p>
-                <p className="text-xs text-success">Asistente IA - Disponible ✅</p>
+                <p className="text-sm font-medium text-card-foreground">Titu</p>
+                <p className="text-xs text-success">Asistente IA - Disponible 24/7 ✅</p>
               </div>
             </div>
             <Button
