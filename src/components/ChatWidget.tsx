@@ -27,8 +27,8 @@ const ChatWidget = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickReplies: QuickReply[] = [
-    { id: '1', text: 'Asesoría' },
-    { id: '2', text: 'Consultas' }
+    { id: '1', text: 'Consultas' },
+    { id: '2', text: 'Agendar Asesoría' }
   ];
 
   // Generate or retrieve userId
