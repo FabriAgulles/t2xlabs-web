@@ -83,7 +83,7 @@ const ChatWidget = () => {
 
       console.log('Payload:', payload); // Debug log
 
-      const response = await fetch('https://ac9bef95ad85.ngrok-free.app/webhook/chatbot-test', {
+      const response = await fetch('https://30d265d99039.ngrok-free.app/webhook/chatbot-test', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
