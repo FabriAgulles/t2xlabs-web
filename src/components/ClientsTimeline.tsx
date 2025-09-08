@@ -114,11 +114,11 @@ const ClientsTimeline = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-cosmic">
-              CASOS DE ÉXITO
+              PROYECTOS DESTACADOS
             </span>
           </h2>
           <p className="text-xl text-foreground/80 max-w-4xl mx-auto">
-            Empresas que ya implementaron nuestras soluciones, procesan más leads, cierran más ventas y superan a sus competidores cada mes.
+            Las empresas que ya implementaron nuestras soluciones, procesan más leads, cierran más ventas y superan a sus competidores cada mes.
           </p>
         </div>
 
@@ -203,7 +203,7 @@ const ClientsTimeline = () => {
             <div className="text-foreground/70">Días de garantía</div>
           </div>
           <div className="text-center bg-gradient-card border border-card-border rounded-xl p-6">
-            <div className="text-3xl font-bold text-matrix-green mb-2">100%</div>
+            <div className="text-3xl font-bold text-matrix-green mb-2">95%</div>
             <div className="text-foreground/70">Clientes Satisfechos</div>
           </div>
           <div className="text-center bg-gradient-card border border-card-border rounded-xl p-6">
@@ -221,7 +221,7 @@ const ClientsTimeline = () => {
             onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-3 bg-gradient-cosmic border border-neon-cyan rounded-lg text-foreground font-semibold hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
           >
-            CREAR MI PROYECTO
+            QUIERO INFORMACIÓN
           </button>
         </div>
       </div>
