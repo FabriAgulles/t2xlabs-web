@@ -31,7 +31,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle }) => {
     { label: 'Inicio', id: 'hero' },
     { label: 'Ventajas', id: 'advantages' },
     { label: 'Servicios', id: 'services' },
-    { label: 'Casos de Éxito', id: 'clients' },
+    { label: 'Proyectos Destacados', id: 'clients' },
     { label: 'Contacto', id: 'contact' },
   ];
 
