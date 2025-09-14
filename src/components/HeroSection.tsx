@@ -83,7 +83,7 @@ const HeroSection = () => {
               variant="outline"
               className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-4 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
             >
-              VER CASOS DE ÉXITO
+              VER PROYECTOS
             </Button>
           </div>
 
