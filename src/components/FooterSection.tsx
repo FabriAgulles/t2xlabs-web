@@ -53,13 +53,13 @@ const FooterSection = () => {
             </h3>
             
             <div className="space-y-4">
-              {/* Barcelona Coordinates */}
+              {/* Tarragona Coordinates */}
               <div className="flex items-center space-x-3 group">
                 <div className="w-2 h-2 bg-neon-cyan rounded-full animate-pulse"></div>
                 <span className="text-foreground/80 font-mono">
                   41.3851° N, 2.1734° E
                 </span>
-                <span className="text-foreground/60 text-sm">Barcelona, España</span>
+                <span className="text-foreground/60 text-sm">Tarragona, España</span>
               </div>
 
               {/* LinkedIn with transmission effect */}
