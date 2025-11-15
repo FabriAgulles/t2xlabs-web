@@ -13,11 +13,11 @@ const CookieConsent = () => {
     const cookiePreference = localStorage.getItem('cookieConsent');
 
     if (!cookiePreference) {
-      // Mostrar el banner después de 1 segundo
+      // Mostrar el banner después de 3 segundos
       const timer = setTimeout(() => {
         setIsVisible(true);
         setIsAnimating(true);
-      }, 1000);
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
