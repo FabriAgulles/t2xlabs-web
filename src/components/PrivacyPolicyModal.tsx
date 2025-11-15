@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 interface PrivacyPolicyModalProps {
   isOpen: boolean;
@@ -29,12 +30,22 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
   if (!isOpen) return null;
 
-  return (
+  // Usar React Portal para renderizar fuera de la jerarquía del DOM
+  return ReactDOM.createPortal(
     <>
       {/* Overlay oscuro - clickeable para cerrar */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm animate-fadeIn"
-        style={{ zIndex: 999 }}
+        className="bg-black/75 backdrop-blur-sm animate-fadeIn"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 9998
+        }}
         onClick={onClose}
       ></div>
 
@@ -46,8 +57,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          zIndex: 1000,
-          width: '95%',
+          zIndex: 9999,
+          width: '90%',
           maxWidth: '800px',
           maxHeight: '80vh',
         }}
@@ -391,7 +402,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           background: rgba(107, 114, 128, 1);
         }
       `}</style>
-    </>
+    </>,
+    document.body  // Renderizar en el body para evitar problemas de transform del padre
   );
 };
 
