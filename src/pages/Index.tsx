@@ -8,6 +8,7 @@ import ContactForm from '@/components/ContactForm';
 import FooterSection from '@/components/FooterSection';
 import CustomCursor from '@/components/CustomCursor';
 import BackToTop from '@/components/BackToTop';
+import CookieConsent from '@/components/CookieConsent';
 
 const Index = () => {
   return (
@@ -41,6 +42,7 @@ const Index = () => {
         <FooterSection />
       </main>
       <BackToTop />
+      <CookieConsent />
     </div>
   );
 };
