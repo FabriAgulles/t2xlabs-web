@@ -31,20 +31,22 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fadeIn"
+      className="fixed inset-0 z-[100] overflow-y-auto animate-fadeIn"
       onClick={onClose}
       aria-modal="true"
       role="dialog"
       aria-labelledby="privacy-policy-title"
     >
       {/* Overlay oscuro */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
 
-      {/* Modal Container */}
-      <div
-        className="relative bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden border border-gray-700 animate-slideUp"
-        onClick={(e) => e.stopPropagation()}
-      >
+      {/* Flex container para centrado */}
+      <div className="flex min-h-full items-center justify-center p-4">
+        {/* Modal Container */}
+        <div
+          className="relative bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden border border-gray-700 animate-slideUp my-8"
+          onClick={(e) => e.stopPropagation()}
+        >
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 px-6 py-4 flex items-center justify-between z-10">
           <h2 id="privacy-policy-title" className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
@@ -324,6 +326,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           >
             Cerrar
           </button>
+        </div>
         </div>
       </div>
 
