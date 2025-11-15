@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import PrivacyPolicyModal from './PrivacyPolicyModal';
 
 type CookiePreference = 'all' | 'necessary' | 'rejected' | null;
 
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Verificar si el usuario ya ha dado su consentimiento
@@ -94,13 +96,15 @@ const CookieConsent = () => {
                   <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
                     Usamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar el contenido.
                     Puedes elegir qué cookies aceptar. Consulta nuestra{' '}
-                    <a
-                      href="/privacy"
-                      className="text-blue-400 hover:text-blue-300 underline transition-colors"
-                      onClick={(e) => e.stopPropagation()}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsModalOpen(true);
+                      }}
+                      className="text-blue-400 hover:text-blue-300 underline transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
                     >
                       Política de Privacidad
-                    </a>
+                    </button>
                     .
                   </p>
                 </div>
@@ -139,6 +143,9 @@ const CookieConsent = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de Política de Privacidad */}
+      <PrivacyPolicyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
