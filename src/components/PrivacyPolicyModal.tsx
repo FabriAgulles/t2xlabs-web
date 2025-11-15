@@ -30,23 +30,32 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn"
-      aria-modal="true"
-      role="dialog"
-      aria-labelledby="privacy-policy-title"
-    >
+    <>
       {/* Overlay oscuro - clickeable para cerrar */}
       <div
-        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/75 backdrop-blur-sm animate-fadeIn"
+        style={{ zIndex: 999 }}
         onClick={onClose}
       ></div>
 
-      {/* Modal Container - centrado perfectamente */}
+      {/* Modal Container - centrado con transform */}
       <div
-        className="relative bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col border border-gray-700 animate-slideUp"
+        className="fixed bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 animate-slideUp"
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1000,
+          width: '95%',
+          maxWidth: '800px',
+          maxHeight: '80vh',
+        }}
         onClick={(e) => e.stopPropagation()}
+        aria-modal="true"
+        role="dialog"
+        aria-labelledby="privacy-policy-title"
       >
+        <div className="flex flex-col h-full max-h-[80vh]">
         {/* Header - fijo arriba */}
         <div className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
           <h2 id="privacy-policy-title" className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
@@ -327,6 +336,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
             Cerrar
           </button>
         </div>
+        </div>
       </div>
 
       {/* Estilos de animación optimizados */}
@@ -343,11 +353,11 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
         @keyframes slideUp {
           from {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translate(-50%, -45%) scale(0.95);
           }
           to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translate(-50%, -50%) scale(1);
           }
         }
 
@@ -378,7 +388,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           background: rgba(107, 114, 128, 1);
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
