@@ -31,24 +31,24 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
   return (
     <div
-      className="fixed inset-0 z-[100] overflow-y-auto animate-fadeIn"
-      onClick={onClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fadeIn"
       aria-modal="true"
       role="dialog"
       aria-labelledby="privacy-policy-title"
     >
-      {/* Overlay oscuro */}
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+      {/* Overlay oscuro - clickeable para cerrar */}
+      <div
+        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
 
-      {/* Flex container para centrado */}
-      <div className="flex min-h-full items-center justify-center p-4">
-        {/* Modal Container */}
-        <div
-          className="relative bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden border border-gray-700 animate-slideUp my-8"
-          onClick={(e) => e.stopPropagation()}
-        >
-        {/* Header */}
-        <div className="sticky top-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 px-6 py-4 flex items-center justify-between z-10">
+      {/* Modal Container - centrado perfectamente */}
+      <div
+        className="relative bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col border border-gray-700 animate-slideUp"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header - fijo arriba */}
+        <div className="flex-shrink-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
           <h2 id="privacy-policy-title" className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
             <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -68,8 +68,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           </button>
         </div>
 
-        {/* Contenido scrolleable */}
-        <div className="overflow-y-auto max-h-[calc(85vh-80px)] px-6 py-6 text-gray-300">
+        {/* Contenido scrolleable - crece para llenar espacio disponible */}
+        <div className="flex-1 overflow-y-auto px-6 py-6 text-gray-300">
 
           {/* Última actualización */}
           <p className="text-sm text-gray-400 mb-6 italic">
@@ -318,8 +318,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           </div>
         </div>
 
-        {/* Footer con botón de cerrar */}
-        <div className="sticky bottom-0 bg-gray-900 border-t border-gray-700 px-6 py-4 flex justify-end">
+        {/* Footer con botón de cerrar - fijo abajo */}
+        <div className="flex-shrink-0 bg-gray-900 border-t border-gray-700 px-6 py-4 flex justify-end rounded-b-2xl">
           <button
             onClick={onClose}
             className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
@@ -327,10 +327,9 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
             Cerrar
           </button>
         </div>
-        </div>
       </div>
 
-      {/* Estilos de animación */}
+      {/* Estilos de animación optimizados */}
       <style>{`
         @keyframes fadeIn {
           from {
@@ -344,20 +343,39 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
         @keyframes slideUp {
           from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px) scale(0.95);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
         }
 
         .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
+          animation: fadeIn 0.25s ease-out;
         }
 
         .animate-slideUp {
-          animation: slideUp 0.3s ease-out;
+          animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Smooth scrollbar styling */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: rgba(31, 41, 55, 0.5);
+          border-radius: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: rgba(75, 85, 99, 0.8);
+          border-radius: 4px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(107, 114, 128, 1);
         }
       `}</style>
     </div>
