@@ -40,8 +40,9 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
       {/* Modal Container - centrado con transform */}
       <div
-        className="fixed bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 animate-slideUp"
+        className="modal-centered bg-gray-900 rounded-2xl shadow-2xl border border-gray-700"
         style={{
+          position: 'fixed',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -341,6 +342,11 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
       {/* Estilos de animación optimizados */}
       <style>{`
+        /* Overlay animation */
+        .animate-fadeIn {
+          animation: fadeIn 0.25s ease-out;
+        }
+
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -350,23 +356,20 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           }
         }
 
-        @keyframes slideUp {
+        /* Modal centering - NO animation on transform to avoid conflicts */
+        .modal-centered {
+          animation: modalAppear 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes modalAppear {
           from {
             opacity: 0;
-            transform: translate(-50%, -45%) scale(0.95);
+            scale: 0.95;
           }
           to {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            scale: 1;
           }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.25s ease-out;
-        }
-
-        .animate-slideUp {
-          animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         /* Smooth scrollbar styling */
