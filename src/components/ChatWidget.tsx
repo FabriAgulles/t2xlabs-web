@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { Send, Bot, X, RotateCcw } from 'lucide-react';
+import { Send, Bot, X, RotateCcw, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -8,10 +8,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 // Constants
-const MAX_MESSAGE_LENGTH = 500;
+const MAX_MESSAGE_LENGTH = 300;
 const WEBHOOK_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
+const SCROLL_THRESHOLD = 100; // Pixels to scroll before showing widget
 
 interface Message {
   id: string;
@@ -158,14 +159,14 @@ const fetchWithRetry = async (
 
       // Don't retry on 4xx errors (client errors)
       if (response.status >= 400 && response.status < 500) {
-        throw new Error(`Error del cliente: ${response.status}`);
+        throw new Error('No pudimos procesar tu solicitud');
       }
     } catch (error) {
       const isLastRetry = i === retries - 1;
 
       if (error instanceof Error && error.name === 'AbortError') {
         if (isLastRetry) {
-          throw new Error('Tiempo de espera agotado');
+          throw new Error('La conexión tardó demasiado');
         }
       } else if (isLastRetry) {
         throw error;
@@ -181,11 +182,12 @@ const fetchWithRetry = async (
     }
   }
 
-  throw new Error('Error de conexión después de varios intentos');
+  throw new Error('No pudimos conectarnos. Intenta de nuevo');
 };
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -204,6 +206,24 @@ const ChatWidget = () => {
 
   // Get webhook URL from environment variable
   const WEBHOOK_URL = import.meta.env.VITE_CHATBOT_WEBHOOK_URL || '';
+
+  // Detect scroll to show widget
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY > SCROLL_THRESHOLD && !isVisible) {
+        setIsVisible(true);
+      }
+    };
+
+    // Show immediately if already scrolled
+    if (window.scrollY > SCROLL_THRESHOLD) {
+      setIsVisible(true);
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isVisible]);
 
   // Generate or retrieve userId (sessionId)
   useEffect(() => {
@@ -241,7 +261,7 @@ const ChatWidget = () => {
 
   // Shake animation every 6 seconds when widget is closed
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen && isVisible) {
       const interval = setInterval(() => {
         setIsShaking(true);
         setTimeout(() => setIsShaking(false), 600);
@@ -249,7 +269,7 @@ const ChatWidget = () => {
 
       return () => clearInterval(interval);
     }
-  }, [isOpen]);
+  }, [isOpen, isVisible]);
 
   // Focus management with cleanup
   useEffect(() => {
@@ -284,10 +304,11 @@ const ChatWidget = () => {
   const sendToWebhook = useCallback(async (message: string): Promise<string> => {
     if (!WEBHOOK_URL) {
       console.error('WEBHOOK_URL no está configurada');
-      toast.error('Error de configuración', {
-        description: 'La URL del webhook no está configurada'
+      toast.error('Servicio temporalmente no disponible', {
+        description: 'Por favor intenta más tarde',
+        position: 'top-right',
       });
-      return 'Lo siento, hay un problema de configuración. Por favor contacta al soporte.';
+      return 'Lo siento, el servicio no está disponible en este momento. Por favor intenta más tarde.';
     }
 
     try {
@@ -318,11 +339,12 @@ const ChatWidget = () => {
     } catch (error) {
       console.error('Error sending to webhook:', error);
 
-      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      const errorMessage = error instanceof Error ? error.message : 'Error al conectar';
 
-      toast.error('Error de conexión', {
-        description: `No se pudo enviar el mensaje: ${errorMessage}`,
-        duration: 5000
+      toast.error('No pudimos enviar tu mensaje', {
+        description: errorMessage,
+        duration: 5000,
+        position: 'top-right',
       });
 
       setIsReconnecting(false);
@@ -402,7 +424,8 @@ const ChatWidget = () => {
     setIsReconnecting(false);
 
     toast.success('Conversación reiniciada', {
-      description: 'Puedes comenzar una nueva conversación'
+      description: 'Puedes comenzar una nueva conversación',
+      position: 'top-right',
     });
 
     setTimeout(() => {
@@ -420,20 +443,47 @@ const ChatWidget = () => {
   const remainingChars = MAX_MESSAGE_LENGTH - inputValue.length;
   const isOverLimit = remainingChars < 0;
 
+  // Don't render if not visible yet
+  if (!isVisible) return null;
+
   return (
-    <div className="fixed bottom-4 right-4 z-50">
-      {/* Chat Bubble Button */}
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Enhanced Chat Bubble Button */}
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className={`w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 ${
-            isShaking ? 'chat-widget-shake' : ''
-          }`}
-          style={{ backgroundColor: '#2563EB' }}
+          className={`
+            group relative
+            w-16 h-16
+            rounded-full
+            shadow-2xl
+            transition-all
+            duration-500
+            hover:scale-110
+            hover:shadow-[0_0_40px_rgba(37,99,235,0.6)]
+            ${isShaking ? 'chat-widget-shake' : ''}
+            bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500
+            hover:from-blue-500 hover:via-cyan-500 hover:to-blue-600
+            border-2 border-white/20
+            backdrop-blur-sm
+          `}
           aria-label="Abrir chat con Titu"
           aria-expanded={isOpen}
         >
-          <Bot className="w-6 h-6 text-white" />
+          {/* Animated glow ring */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500" />
+
+          {/* Pulse animation */}
+          <div className="absolute inset-0 rounded-full bg-blue-400 animate-ping opacity-20" />
+
+          {/* Bot Icon */}
+          <Bot className="w-7 h-7 text-white relative z-10 drop-shadow-lg" />
+
+          {/* Sparkle effect on hover */}
+          <Sparkles className="w-4 h-4 text-yellow-300 absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+
+          {/* Notification badge */}
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full border-2 border-white shadow-lg" />
         </Button>
       )}
 
@@ -441,21 +491,31 @@ const ChatWidget = () => {
       {isOpen && (
         <div
           ref={chatWindowRef}
-          className="w-80 h-96 bg-card border border-card-border rounded-lg shadow-2xl flex flex-col overflow-hidden"
+          className="w-80 h-96 bg-card border border-card-border rounded-lg shadow-2xl flex flex-col overflow-hidden animate-scale-in"
           role="dialog"
           aria-labelledby="chat-title"
           aria-modal="true"
         >
           {/* Header */}
-          <div className="bg-gradient-card p-4 flex items-center justify-between border-b border-card-border">
+          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 p-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <Bot className="w-4 h-4 text-primary-foreground" />
+              <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+                <Bot className="w-4 h-4 text-white" />
               </div>
               <div>
-                <p id="chat-title" className="text-sm font-medium text-card-foreground">Titu</p>
-                <p className="text-xs text-success">
-                  {isReconnecting ? 'Reconectando...' : 'Asistente IA - Disponible 24/7 ✅'}
+                <p id="chat-title" className="text-sm font-semibold text-white">Titu</p>
+                <p className="text-xs text-white/90 flex items-center gap-1">
+                  {isReconnecting ? (
+                    <>
+                      <span className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse" />
+                      Reconectando...
+                    </>
+                  ) : (
+                    <>
+                      <span className="w-2 h-2 bg-green-300 rounded-full animate-pulse" />
+                      Disponible 24/7
+                    </>
+                  )}
                 </p>
               </div>
             </div>
@@ -464,7 +524,7 @@ const ChatWidget = () => {
                 variant="ghost"
                 size="icon"
                 onClick={handleRestartConversation}
-                className="text-card-foreground hover:bg-secondary/20"
+                className="text-white hover:bg-white/20 transition-colors"
                 aria-label="Reiniciar conversación"
                 title="Reiniciar conversación"
               >
@@ -474,7 +534,7 @@ const ChatWidget = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsOpen(false)}
-                className="text-card-foreground hover:bg-secondary/20"
+                className="text-white hover:bg-white/20 transition-colors"
                 aria-label="Cerrar chat"
               >
                 <X className="w-4 h-4" />
@@ -484,7 +544,7 @@ const ChatWidget = () => {
 
           {/* Messages */}
           <div
-            className="flex-1 p-4 overflow-y-auto space-y-3"
+            className="flex-1 p-4 overflow-y-auto space-y-3 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950"
             role="log"
             aria-live="polite"
             aria-label="Mensajes del chat"
@@ -508,7 +568,7 @@ const ChatWidget = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-card-border">
+          <div className="p-4 border-t border-card-border bg-white dark:bg-gray-950">
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <Input
@@ -518,7 +578,7 @@ const ChatWidget = () => {
                   onKeyDown={handleKeyPress}
                   placeholder="Escribe tu mensaje..."
                   maxLength={MAX_MESSAGE_LENGTH}
-                  className="flex-1 text-sm border-input-border focus:border-input-focus"
+                  className="flex-1 text-sm border-input-border focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                   aria-label="Escribe tu mensaje"
                   aria-describedby="char-count"
                 />
@@ -526,7 +586,7 @@ const ChatWidget = () => {
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isOverLimit}
                   size="icon"
-                  className="bg-primary hover:bg-primary/90"
+                  className="bg-gradient-to-br from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg hover:shadow-xl transition-all duration-300"
                   aria-label="Enviar mensaje"
                 >
                   <Send className="w-4 h-4" />
@@ -534,8 +594,8 @@ const ChatWidget = () => {
               </div>
               <div
                 id="char-count"
-                className={`text-xs text-right ${
-                  isOverLimit ? 'text-destructive' : 'text-muted-foreground'
+                className={`text-xs text-right transition-colors ${
+                  isOverLimit ? 'text-red-500 font-semibold' : 'text-muted-foreground'
                 }`}
                 aria-live="polite"
               >
