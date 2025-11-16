@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
+
+// Moved outside component to prevent re-creation on every render
+const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
 
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState('');
@@ -9,13 +12,8 @@ const HeroSection = () => {
   const animationFrameRef = useRef<number>();
   const lastUpdateRef = useRef<number>(0);
 
-  const mainText = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
-
-  // Pre-calculate lines to avoid split on every render
-  const textLines = useMemo(() => mainText.split('\n'), [mainText]);
-
   useEffect(() => {
-    if (currentIndex >= mainText.length) {
+    if (currentIndex >= MAIN_TEXT.length) {
       // Show subtitle after typewriter effect
       const timeout = setTimeout(() => setShowSubtitle(true), 300);
       return () => clearTimeout(timeout);
@@ -27,9 +25,9 @@ const HeroSection = () => {
 
       const elapsed = timestamp - lastUpdateRef.current;
 
-      // Update every 50ms instead of 100ms (2x faster)
-      if (elapsed > 50) {
-        setDisplayedText(prev => prev + mainText[currentIndex]);
+      // Update every 70ms as requested
+      if (elapsed > 70) {
+        setDisplayedText(prev => prev + MAIN_TEXT[currentIndex]);
         setCurrentIndex(prev => prev + 1);
         lastUpdateRef.current = timestamp;
       }
@@ -44,7 +42,7 @@ const HeroSection = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [currentIndex, mainText]);
+  }, [currentIndex]); // Removed MAIN_TEXT from dependencies to prevent duplication
 
   const scrollToContact = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -74,7 +72,7 @@ const HeroSection = () => {
               {displayedText.split('\n').map((line, index) => (
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
                   {line}
-                  {index === displayedText.split('\n').length - 1 && currentIndex < mainText.length && (
+                  {index === displayedText.split('\n').length - 1 && currentIndex < MAIN_TEXT.length && (
                     <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse" style={{ willChange: 'opacity' }}></span>
                   )}
                 </div>
@@ -86,13 +84,13 @@ const HeroSection = () => {
         {/* Subtitle with Delay Animation */}
         <div className={`transition-all duration-1000 ${showSubtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-12 leading-relaxed">
-            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial. 
+            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial.
             No somos el futuro. <span className="text-matrix-green font-semibold">Somos el presente</span> que te posiciona por encima de tus competidores.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button 
+            <Button
               onClick={scrollToContact}
               className="group bg-gradient-cosmic border border-neon-cyan text-foreground px-4 py-4 text-lg font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
             >
@@ -100,8 +98,8 @@ const HeroSection = () => {
               INICIAR TRANSFORMACIÓN
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={scrollToClients}
               variant="outline"
               className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-4 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
