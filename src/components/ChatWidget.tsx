@@ -22,11 +22,6 @@ interface Message {
   timestamp: string;
 }
 
-interface QuickReply {
-  id: string;
-  text: string;
-}
-
 // Memoized Message Component
 const MessageBubble = memo(({ message }: { message: Message }) => {
   const [showTimestamp, setShowTimestamp] = useState(false);
@@ -113,60 +108,6 @@ const TypingIndicator = memo(() => (
 
 TypingIndicator.displayName = 'TypingIndicator';
 
-// Memoized Quick Reply Buttons
-const QuickReplies = memo(({
-  replies,
-  onReplyClick
-}: {
-  replies: QuickReply[];
-  onReplyClick: (reply: QuickReply) => void;
-}) => (
-  <div className="flex flex-col gap-2 animate-fade-in">
-    {replies.map((reply) => (
-      <Button
-        key={reply.id}
-        variant="outline"
-        size="sm"
-        onClick={() => onReplyClick(reply)}
-        /* DISEÑO ACCESIBLE:
-           - Fondo blanco sólido
-           - Border azul sólido (no transparente) para máxima visibilidad
-           - Hover: Fondo azul muy claro (#EFF6FF) que mantiene contraste
-           - Focus: Ring visible para navegación por teclado
-           - Active: Feedback visual inmediato
-           - Min height 44px para touch targets WCAG
-        */
-        className="
-          self-start
-          min-h-[44px]
-          px-4
-          text-sm
-          font-medium
-          bg-white
-          text-blue-600
-          border-2
-          border-blue-600
-          hover:bg-blue-50
-          hover:border-blue-700
-          active:bg-blue-100
-          focus:ring-2
-          focus:ring-blue-500
-          focus:ring-offset-2
-          transition-all
-          duration-150
-          shadow-sm
-          hover:shadow-md
-        "
-        aria-label={`Respuesta rápida: ${reply.text}`}
-      >
-        {reply.text}
-      </Button>
-    ))}
-  </div>
-));
-
-QuickReplies.displayName = 'QuickReplies';
-
 // Retry logic with exponential backoff - MOVED OUTSIDE COMPONENT
 const fetchWithRetry = async (
   url: string,
@@ -225,17 +166,11 @@ const ChatWidget = () => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [userId, setUserId] = useState<string>('');
-  const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [isShaking, setIsShaking] = useState(false);
   const [isReconnecting, setIsReconnecting] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatWindowRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const quickReplies: QuickReply[] = [
-    { id: '1', text: 'Consultas' },
-    { id: '2', text: 'Agendar Asesoría' }
-  ];
 
   // Get webhook URL from environment variable
   const WEBHOOK_URL = import.meta.env.VITE_CHATBOT_WEBHOOK_URL || '';
@@ -367,15 +302,44 @@ const ChatWidget = () => {
         setIsReconnecting
       );
 
-      const data = await response.json();
+      // Intentar parsear JSON de forma segura
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        // Si falla el parseo de JSON, mostrar mensaje user-friendly
+        console.error('Error parsing JSON response:', jsonError);
+        toast.error('Respuesta inesperada del servidor', {
+          description: 'Estamos trabajando en solucionarlo',
+          duration: 5000,
+          position: 'top-right',
+        });
+        return 'Lo siento, recibimos una respuesta inesperada. Por favor intenta de nuevo.';
+      }
+
       return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
     } catch (error) {
       console.error('Error sending to webhook:', error);
 
-      const errorMessage = error instanceof Error ? error.message : 'Error al conectar';
+      // Mensajes de error user-friendly basados en el tipo de error
+      let userMessage = 'Error de conexión';
 
-      toast.error('No pudimos enviar tu mensaje', {
-        description: errorMessage,
+      if (error instanceof Error) {
+        // Convertir mensajes técnicos a mensajes comprensibles
+        if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+          userMessage = 'No pudimos conectar con el servidor';
+        } else if (error.message.includes('timeout') || error.message.includes('AbortError')) {
+          userMessage = 'La conexión tardó demasiado tiempo';
+        } else if (error.message.includes('No pudimos')) {
+          // Mantener nuestros mensajes custom
+          userMessage = error.message;
+        } else {
+          userMessage = 'Problema de conexión temporal';
+        }
+      }
+
+      toast.error('No pudimos procesar tu solicitud', {
+        description: userMessage,
         duration: 5000,
         position: 'top-right',
       });
@@ -384,32 +348,6 @@ const ChatWidget = () => {
       return 'Lo siento, hay un problema de conexión. Por favor intenta más tarde.';
     }
   }, [userId, WEBHOOK_URL]);
-
-  // Handle quick reply click
-  const handleQuickReplyClick = useCallback(async (reply: QuickReply) => {
-    const userMessage: Message = {
-      id: crypto.randomUUID(),
-      content: reply.text,
-      isBot: false,
-      timestamp: new Date().toISOString()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setShowQuickReplies(false);
-    setIsTyping(true);
-
-    const botReply = await sendToWebhook(reply.text);
-    setIsTyping(false);
-
-    const botMessage: Message = {
-      id: crypto.randomUUID(),
-      content: botReply,
-      isBot: true,
-      timestamp: new Date().toISOString()
-    };
-
-    setMessages(prev => [...prev, botMessage]);
-  }, [sendToWebhook]);
 
   // Handle send message
   const handleSendMessage = useCallback(async () => {
@@ -451,7 +389,6 @@ const ChatWidget = () => {
   // Handle restart conversation
   const handleRestartConversation = useCallback(() => {
     setMessages([]);
-    setShowQuickReplies(true);
     setInputValue('');
     setIsTyping(false);
     setIsReconnecting(false);
@@ -472,10 +409,8 @@ const ChatWidget = () => {
     }, 100);
   }, []);
 
-  // Character count with warning states
-  const remainingChars = MAX_MESSAGE_LENGTH - inputValue.length;
-  const isOverLimit = remainingChars < 0;
-  const isNearLimit = remainingChars > 0 && remainingChars < CHAR_WARNING_THRESHOLD;
+  // Character validation
+  const isOverLimit = inputValue.length > MAX_MESSAGE_LENGTH;
 
   // Don't render if not visible yet
   if (!isVisible) return null;
@@ -590,14 +525,6 @@ const ChatWidget = () => {
               <MessageBubble key={message.id} message={message} />
             ))}
 
-            {/* Quick Replies */}
-            {showQuickReplies && messages.length > 0 && (
-              <QuickReplies
-                replies={quickReplies}
-                onReplyClick={handleQuickReplyClick}
-              />
-            )}
-
             {/* Typing Indicator */}
             {isTyping && <TypingIndicator />}
 
@@ -661,24 +588,56 @@ const ChatWidget = () => {
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
-              {/* CONTADOR ACCESIBLE:
-                  - Normal: text-slate-600 (contraste 7.23:1)
-                  - Advertencia: text-amber-600 (cuando quedan < 50 chars)
-                  - Error: text-red-600 font-semibold (cuando excede el límite)
-                  - Transición suave entre estados
-              */}
-              <div
-                id="char-count"
-                className={`text-xs text-right font-medium transition-colors duration-200 ${
-                  isOverLimit
-                    ? 'text-red-600 font-semibold'
-                    : isNearLimit
-                    ? 'text-amber-600'
-                    : 'text-slate-600'
-                }`}
-                aria-live="polite"
-              >
-                {remainingChars} caracteres restantes
+              {/* Badge "Hecho por t2xlabs" con diseño futurista */}
+              <div className="flex items-center justify-center gap-2 text-xs mt-1">
+                <span className="text-slate-500 text-[10px]">Powered by</span>
+                <a
+                  href="https://t2xlabs.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    group
+                    relative
+                    inline-flex
+                    items-center
+                    gap-1.5
+                    px-3
+                    py-1
+                    rounded-full
+                    bg-gradient-to-r
+                    from-cyan-500
+                    via-blue-600
+                    to-cyan-500
+                    text-white
+                    font-bold
+                    text-[10px]
+                    uppercase
+                    tracking-wider
+                    shadow-md
+                    hover:shadow-lg
+                    hover:shadow-cyan-500/50
+                    transition-all
+                    duration-300
+                    hover:scale-105
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-cyan-400
+                    focus:ring-offset-1
+                  "
+                  aria-label="Visitar t2xlabs.com"
+                >
+                  {/* Icono de estrella futurista */}
+                  <svg
+                    className="w-3 h-3 transition-transform duration-300 group-hover:rotate-12"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+
+                  <span>t2xlabs</span>
+                </a>
               </div>
             </div>
           </div>
