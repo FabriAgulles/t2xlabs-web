@@ -1,0 +1,174 @@
+# =============================================================================
+# NETLIFY CONFIGURATION
+# t2xLabs Web Application
+# =============================================================================
+
+[build]
+  # Comando de build
+  command = "npm run build"
+
+  # Directorio de salida del build
+  publish = "dist"
+
+  # Directorio de funciones serverless
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node version (asegurar compatibilidad)
+  NODE_VERSION = "18"
+
+# =============================================================================
+# REDIRECTS Y REWRITES
+# =============================================================================
+
+# SPA Fallback: Todas las rutas no encontradas van a index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["editor"]}
+
+# =============================================================================
+# HEADERS DE SEGURIDAD HTTP
+# =============================================================================
+
+[[headers]]
+  # Aplicar a todas las rutas
+  for = "/*"
+
+  [headers.values]
+    # Forzar HTTPS (HSTS) - 1 año
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Prevenir clickjacking - no permitir iframe
+    X-Frame-Options = "DENY"
+
+    # Prevenir MIME sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # XSS Protection (legacy, pero bueno tener)
+    X-XSS-Protection = "1; mode=block"
+
+    # Referrer Policy - enviar origen solo en cross-origin
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permissions Policy - deshabilitar APIs innecesarias
+    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+
+    # Content Security Policy (CSP)
+    # NOTA: Ajustado para permitir Google Analytics y estilos inline de componentes
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: https: https://i.imgur.com;
+      font-src 'self' data:;
+      connect-src 'self' https://www.google-analytics.com;
+      frame-src 'none';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      upgrade-insecure-requests;
+    """
+
+# Headers específicos para assets estáticos (cache largo)
+[[headers]]
+  for = "/assets/*"
+
+  [headers.values]
+    # Cache de 1 año para assets con hash
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers para la página principal (sin cache)
+[[headers]]
+  for = "/"
+
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers para archivos HTML (sin cache)
+[[headers]]
+  for = "/*.html"
+
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# =============================================================================
+# FUNCIONES (NETLIFY FUNCTIONS)
+# =============================================================================
+
+[functions]
+  # Directorio de funciones (ya definido en build.functions)
+  directory = "netlify/functions"
+
+  # Región de ejecución (opcional, auto por defecto)
+  # node_bundler = "esbuild"
+
+# Configuración específica para submit-lead function
+[[functions.submit-lead]]
+  # Tiempo máximo de ejecución: 10 segundos
+  # (suficiente para validar + llamar a Airtable)
+  timeout = 10
+
+# =============================================================================
+# DEVELOPMENT
+# =============================================================================
+
+[dev]
+  # Puerto de desarrollo local
+  port = 8080
+
+  # Auto-abrir navegador
+  autoLaunch = false
+
+  # Framework detection
+  framework = "#custom"
+
+  # Comando de desarrollo
+  command = "npm run dev"
+
+  # Directorio de funciones en desarrollo
+  functions = "netlify/functions"
+
+# =============================================================================
+# PLUGINS (Opcional)
+# =============================================================================
+
+# Descomentar si se quiere usar plugins de Netlify
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
+
+# =============================================================================
+# CONTEXT-SPECIFIC CONFIGURATION
+# =============================================================================
+
+# Producción
+[context.production]
+  environment = { NODE_ENV = "production" }
+
+# Deploy Previews (PRs)
+[context.deploy-preview]
+  environment = { NODE_ENV = "preview" }
+
+# Branch deploys
+[context.branch-deploy]
+  environment = { NODE_ENV = "development" }
+
+# =============================================================================
+# NOTAS IMPORTANTES
+# =============================================================================
+
+# 1. CSP: Si se añade Cloudflare Turnstile, añadir a script-src:
+#    https://challenges.cloudflare.com
+
+# 2. Variables de Entorno:
+#    Configurar en Netlify Dashboard → Site settings → Environment variables
+#    - AIRTABLE_BASE_ID
+#    - AIRTABLE_TOKEN
+#    - (Opcional) TURNSTILE_SECRET_KEY
+
+# 3. Para CSP más estricto (requiere refactoring):
+#    - Eliminar 'unsafe-inline' de script-src y style-src
+#    - Usar nonces dinámicos
+#    - Mover Google Analytics a Tag Manager con CSP estricto
