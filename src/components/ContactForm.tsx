@@ -106,7 +106,7 @@ const ContactForm = () => {
 
       console.log('📊 Datos exactos enviados:', JSON.stringify(requestData, null, 2));
 
-      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Leads`, {
+      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/t2xlabs - Leads`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
