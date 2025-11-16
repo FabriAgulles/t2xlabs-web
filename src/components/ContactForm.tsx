@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Send, Zap, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { contactFormSchema, CLIENT_COOLDOWN_MS } from '@/lib/validation';
+import { logger } from '@/lib/logger';
+import { z } from 'zod';
 
 interface FormData {
   nombre: string;
@@ -13,6 +16,7 @@ interface FormData {
   budget: string;
   interest: string;
   mensaje: string;
+  website: string; // Honeypot field - debe estar vacío
 }
 
 const ContactForm = () => {
@@ -24,14 +28,24 @@ const ContactForm = () => {
     companySize: '',
     budget: '',
     interest: '',
-    mensaje: ''
+    mensaje: '',
+    website: '' // Honeypot
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
+  const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
 
   const companySizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
   const budgets = ['≤1.000€', '1.000-3.000€', '3.000-6.000€', '6.000-10.000€', '10.000€+'];
   const interests = ['Automatización', 'Agentes IA', 'Chatbot', 'Fusión de Sistemas', 'Transformación Completa'];
+
+  // Restaurar lastSubmitTime desde localStorage al montar
+  useEffect(() => {
+    const stored = localStorage.getItem('lastContactFormSubmit');
+    if (stored) {
+      setLastSubmitTime(parseInt(stored, 10));
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -42,97 +56,125 @@ const ContactForm = () => {
     setFormData(prev => ({ ...prev, [category]: value }));
   };
 
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validation
-    if (!formData.nombre || !formData.email || !formData.empresa || !formData.companySize || !formData.budget || !formData.interest) {
+
+    // ============================================================================
+    // COOLDOWN EN CLIENTE (Prevenir spam accidental)
+    // ============================================================================
+    const now = Date.now();
+    const timeSinceLastSubmit = now - lastSubmitTime;
+
+    if (timeSinceLastSubmit < CLIENT_COOLDOWN_MS) {
+      const remainingSeconds = Math.ceil((CLIENT_COOLDOWN_MS - timeSinceLastSubmit) / 1000);
       toast({
-        title: "Campos requeridos",
-        description: "Por favor completa todos los campos obligatorios incluyendo tamaño de empresa, presupuesto e interés principal.",
+        title: "Por favor espera",
+        description: `Puedes enviar otro formulario en ${remainingSeconds} segundos.`,
         variant: "destructive"
       });
       return;
     }
 
-    if (!validateEmail(formData.email)) {
-      toast({
-        title: "Email inválido",
-        description: "Por favor ingresa un email válido.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-    setShowPortal(true);
-
+    // ============================================================================
+    // VALIDACIÓN CON ZOD (Cliente)
+    // ============================================================================
     try {
-      // ✅ CREDENCIALES DESDE ARCHIVO .ENV LOCAL
-      const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
-      const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
-      
-      // Validación de que las variables existen
-      if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
-        console.error('❌ Variables de entorno faltantes:', {
-          BASE_ID: !!AIRTABLE_BASE_ID,
-          TOKEN: !!AIRTABLE_TOKEN
-        });
-        throw new Error('Variables de entorno no encontradas en archivo .env');
-      }
-      
-      console.log('🚀 Enviando a Airtable...');
-      
-      // ✅ DATOS CON FECHA.CREACION INCLUIDA
-      const requestData = {
-        records: [{
-          fields: {
-            Nombre: formData.nombre,
-            Email: formData.email,
-            Empresa: formData.empresa,
-            TamañoEmpresa: formData.companySize || '',
-            Presupuesto: formData.budget || '',
-            InterésPrincipal: formData.interest || '',
-            Mensaje: formData.mensaje || '',
-            Estado: 'Nuevo'
-            // fecha.creacion se auto-genera en Airtable (campo computado)
-          }
-        }]
-      };
+      const validatedData = contactFormSchema.parse(formData);
+      logger.log('✅ Validación Zod exitosa en cliente');
 
-      console.log('📊 Datos exactos enviados:', JSON.stringify(requestData, null, 2));
-
-      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Leads`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-      });
-
-      const result = await response.json();
-      
-      console.log('📡 Respuesta de Airtable:', {
-        status: response.status,
-        statusText: response.statusText,
-        result: result
-      });
-
-      if (response.ok) {
-        console.log('✅ Lead guardado exitosamente en Airtable');
-        
+      // Verificar honeypot en cliente (detección temprana de bots)
+      if (validatedData.website) {
+        logger.warn('⚠️ Honeypot detectado - posible bot');
+        // No mostrar error al bot, simplemente simular éxito
         toast({
           title: "¡Transformación iniciada! 🚀",
           description: "Nos contactaremos contigo en las próximas 24 horas.",
           variant: "default"
         });
-        
-        // Reset form
+        return;
+      }
+
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Error de validación",
+          description: firstError.message,
+          variant: "destructive"
+        });
+        logger.error('❌ Error de validación Zod:', error.errors);
+        return;
+      }
+    }
+
+    // ============================================================================
+    // ENVÍO A NETLIFY FUNCTION (Protección de credenciales)
+    // ============================================================================
+    setIsSubmitting(true);
+    setShowPortal(true);
+
+    try {
+      logger.log('🚀 Enviando formulario a Netlify Function...');
+
+      const response = await fetch('/.netlify/functions/submit-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      // Manejo de rate limiting (429)
+      if (response.status === 429) {
+        const retryAfter = result.retryAfter || 3600;
+        const hours = Math.ceil(retryAfter / 3600);
+        toast({
+          title: "Límite de solicitudes alcanzado",
+          description: `Has enviado demasiados formularios. Intenta nuevamente en ${hours} hora${hours > 1 ? 's' : ''}.`,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Manejo de errores de validación (400)
+      if (response.status === 400) {
+        toast({
+          title: "Datos inválidos",
+          description: result.details || "Por favor verifica los datos del formulario.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Error de servidor (500)
+      if (response.status === 500) {
+        toast({
+          title: "Error del servidor",
+          description: "Hubo un problema al procesar tu solicitud. Intenta más tarde.",
+          variant: "destructive"
+        });
+        logger.error('❌ Error 500 del servidor');
+        return;
+      }
+
+      // Éxito
+      if (response.ok && result.success) {
+        logger.log('✅ Formulario enviado exitosamente');
+
+        // Actualizar timestamp de último envío
+        const submitTime = Date.now();
+        setLastSubmitTime(submitTime);
+        localStorage.setItem('lastContactFormSubmit', submitTime.toString());
+
+        toast({
+          title: "¡Transformación iniciada! 🚀",
+          description: "Nos contactaremos contigo en las próximas 24 horas.",
+          variant: "default"
+        });
+
+        // Reset form (excepto honeypot)
         setFormData({
           nombre: '',
           email: '',
@@ -140,27 +182,26 @@ const ContactForm = () => {
           companySize: '',
           budget: '',
           interest: '',
-          mensaje: ''
+          mensaje: '',
+          website: '' // Mantener honeypot vacío
         });
       } else {
-        console.error('❌ Error de Airtable:', result);
-        throw new Error(`Error ${response.status}: ${result.error?.message || 'Error desconocido'}`);
+        throw new Error('Respuesta inesperada del servidor');
       }
 
     } catch (error) {
-      console.error('❌ Error completo:', error);
-      
-      let errorMessage = "Error de transmisión";
+      logger.error('❌ Error en envío de formulario:', error);
+
+      let errorMessage = "Error de conexión. Verifica tu internet e intenta nuevamente.";
+
       if (error instanceof Error) {
-        if (error.message.includes('Variables de entorno')) {
-          errorMessage = "Configuración pendiente. Contacta al administrador.";
-        } else if (error.message.includes('fetch')) {
-          errorMessage = "Error de conexión. Verifica tu internet.";
-        } else {
-          errorMessage = `Error: ${error.message}`;
+        if (error.message.includes('fetch')) {
+          errorMessage = "No se pudo conectar con el servidor. Verifica tu conexión a internet.";
+        } else if (error.message === 'Respuesta inesperada del servidor') {
+          errorMessage = "Error inesperado del servidor. Intenta más tarde.";
         }
       }
-      
+
       toast({
         title: "Error de transmisión",
         description: errorMessage,
@@ -201,7 +242,21 @@ const ContactForm = () => {
           <form onSubmit={handleSubmit} className="bg-gradient-card border border-card-border rounded-2xl p-8 relative group">
             {/* Form Glow Effect */}
             <div className="absolute inset-0 bg-gradient-cosmic opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500"></div>
-            
+
+            {/* Honeypot Field - Invisible to humans, visible to bots */}
+            <div className="absolute" style={{ left: '-9999px' }} aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleInputChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Basic Information */}
               <div className="space-y-6">
@@ -209,7 +264,7 @@ const ContactForm = () => {
                   <Sparkles className="mr-2" />
                   Datos de Contacto
                 </h3>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-foreground/80 mb-2">
                     Nombre *
@@ -221,6 +276,7 @@ const ContactForm = () => {
                     className="form-input"
                     placeholder="Tu nombre completo"
                     required
+                    maxLength={100}
                   />
                 </div>
 
@@ -236,6 +292,7 @@ const ContactForm = () => {
                     className="form-input"
                     placeholder="tu@empresa.com"
                     required
+                    maxLength={255}
                   />
                 </div>
 
@@ -250,6 +307,7 @@ const ContactForm = () => {
                     className="form-input"
                     placeholder="Nombre de tu empresa"
                     required
+                    maxLength={200}
                   />
                 </div>
 
@@ -263,6 +321,7 @@ const ContactForm = () => {
                     onChange={handleInputChange}
                     className="form-input min-h-[100px] resize-none"
                     placeholder="Cuéntanos sobre tu proyecto o idea para ayudarte con asesoramiento personalizado...."
+                    maxLength={2000}
                   />
                 </div>
               </div>
@@ -358,13 +417,13 @@ const ContactForm = () => {
                     <Zap className="ml-2 h-5 w-5 group-hover:animate-bounce" />
                   </>
                 )}
-                
+
                 {/* Portal Opening Effect */}
                 {showPortal && (
                   <div className="absolute inset-0 bg-gradient-cosmic animate-pulse"></div>
                 )}
               </Button>
-              
+
               <p className="text-sm text-foreground/60 mt-4">
                 Te contactaremos en las próximas 24 horas para discutir tu proyecto.
               </p>
