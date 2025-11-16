@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, memo, lazy, Suspense } from 'react';
-import { Send, Bot, X, MessageCircle, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
+import { Send, Bot, X, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -133,6 +133,57 @@ const QuickReplies = memo(({
 
 QuickReplies.displayName = 'QuickReplies';
 
+// Retry logic with exponential backoff - MOVED OUTSIDE COMPONENT
+const fetchWithRetry = async (
+  url: string,
+  options: RequestInit,
+  retries = MAX_RETRIES,
+  onReconnecting?: (isReconnecting: boolean) => void
+): Promise<Response> => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), WEBHOOK_TIMEOUT);
+
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        return response;
+      }
+
+      // Don't retry on 4xx errors (client errors)
+      if (response.status >= 400 && response.status < 500) {
+        throw new Error(`Error del cliente: ${response.status}`);
+      }
+    } catch (error) {
+      const isLastRetry = i === retries - 1;
+
+      if (error instanceof Error && error.name === 'AbortError') {
+        if (isLastRetry) {
+          throw new Error('Tiempo de espera agotado');
+        }
+      } else if (isLastRetry) {
+        throw error;
+      }
+
+      // Exponential backoff
+      const delay = INITIAL_RETRY_DELAY * Math.pow(2, i);
+      await new Promise(resolve => setTimeout(resolve, delay));
+
+      if (i < retries - 1 && onReconnecting) {
+        onReconnecting(true);
+      }
+    }
+  }
+
+  throw new Error('Error de conexión después de varios intentos');
+};
+
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -179,11 +230,13 @@ const ChatWidget = () => {
 
   // Improved smooth scroll to bottom
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest'
-    });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest'
+      });
+    }
   }, [messages, isTyping]);
 
   // Shake animation every 6 seconds when widget is closed
@@ -198,12 +251,21 @@ const ChatWidget = () => {
     }
   }, [isOpen]);
 
-  // Focus management
+  // Focus management with cleanup
   useEffect(() => {
+    let focusTimeout: NodeJS.Timeout;
+
     if (isOpen) {
-      // Focus input when chat opens
-      setTimeout(() => inputRef.current?.focus(), 100);
+      focusTimeout = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
+
+    return () => {
+      if (focusTimeout) {
+        clearTimeout(focusTimeout);
+      }
+    };
   }, [isOpen]);
 
   // Keyboard navigation
@@ -218,58 +280,8 @@ const ChatWidget = () => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen]);
 
-  // Retry logic with exponential backoff
-  const fetchWithRetry = async (
-    url: string,
-    options: RequestInit,
-    retries = MAX_RETRIES
-  ): Promise<Response> => {
-    for (let i = 0; i < retries; i++) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), WEBHOOK_TIMEOUT);
-
-        const response = await fetch(url, {
-          ...options,
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          return response;
-        }
-
-        // Don't retry on 4xx errors (client errors)
-        if (response.status >= 400 && response.status < 500) {
-          throw new Error(`Error del cliente: ${response.status}`);
-        }
-      } catch (error) {
-        const isLastRetry = i === retries - 1;
-
-        if (error instanceof Error && error.name === 'AbortError') {
-          if (isLastRetry) {
-            throw new Error('Tiempo de espera agotado');
-          }
-        } else if (isLastRetry) {
-          throw error;
-        }
-
-        // Exponential backoff
-        const delay = INITIAL_RETRY_DELAY * Math.pow(2, i);
-        await new Promise(resolve => setTimeout(resolve, delay));
-
-        if (i < retries - 1) {
-          setIsReconnecting(true);
-        }
-      }
-    }
-
-    throw new Error('Error de conexión después de varios intentos');
-  };
-
-  // Send message to webhook
-  const sendToWebhook = async (message: string): Promise<string> => {
+  // Send message to webhook - MEMOIZED
+  const sendToWebhook = useCallback(async (message: string): Promise<string> => {
     if (!WEBHOOK_URL) {
       console.error('WEBHOOK_URL no está configurada');
       toast.error('Error de configuración', {
@@ -281,15 +293,11 @@ const ChatWidget = () => {
     try {
       setIsReconnecting(false);
 
-      // Optional: Compress payload (simple JSON)
       const payload = {
-        userId, // Using userId as sessionId
+        userId,
         message,
         timestamp: new Date().toISOString()
       };
-
-      // Optional: Analytics event (commented)
-      // trackEvent('chatbot_message_sent', { userId, messageLength: message.length });
 
       const response = await fetchWithRetry(
         WEBHOOK_URL,
@@ -300,14 +308,12 @@ const ChatWidget = () => {
             'ngrok-skip-browser-warning': 'true'
           },
           body: JSON.stringify(payload)
-        }
+        },
+        MAX_RETRIES,
+        setIsReconnecting
       );
 
       const data = await response.json();
-
-      // Optional: Analytics event (commented)
-      // trackEvent('chatbot_message_received', { userId });
-
       return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
     } catch (error) {
       console.error('Error sending to webhook:', error);
@@ -322,11 +328,10 @@ const ChatWidget = () => {
       setIsReconnecting(false);
       return 'Lo siento, hay un problema de conexión. Por favor intenta más tarde.';
     }
-  };
+  }, [userId, WEBHOOK_URL]);
 
   // Handle quick reply click
   const handleQuickReplyClick = useCallback(async (reply: QuickReply) => {
-    // Add user message
     const userMessage: Message = {
       id: crypto.randomUUID(),
       content: reply.text,
@@ -338,9 +343,7 @@ const ChatWidget = () => {
     setShowQuickReplies(false);
     setIsTyping(true);
 
-    // Send to webhook and get response
     const botReply = await sendToWebhook(reply.text);
-
     setIsTyping(false);
 
     const botMessage: Message = {
@@ -351,13 +354,12 @@ const ChatWidget = () => {
     };
 
     setMessages(prev => [...prev, botMessage]);
-  }, [userId]);
+  }, [sendToWebhook]);
 
   // Handle send message
   const handleSendMessage = useCallback(async () => {
     if (!inputValue.trim() || inputValue.length > MAX_MESSAGE_LENGTH) return;
 
-    // Add user message
     const userMessage: Message = {
       id: crypto.randomUUID(),
       content: inputValue,
@@ -370,9 +372,7 @@ const ChatWidget = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Send to webhook and get response
     const botReply = await sendToWebhook(messageToSend);
-
     setIsTyping(false);
 
     const botMessage: Message = {
@@ -383,7 +383,7 @@ const ChatWidget = () => {
     };
 
     setMessages(prev => [...prev, botMessage]);
-  }, [inputValue, userId]);
+  }, [inputValue, sendToWebhook]);
 
   // Handle key press
   const handleKeyPress = useCallback((e: React.KeyboardEvent) => {
@@ -405,7 +405,6 @@ const ChatWidget = () => {
       description: 'Puedes comenzar una nueva conversación'
     });
 
-    // Add initial message again
     setTimeout(() => {
       const initialMessage: Message = {
         id: crypto.randomUUID(),
@@ -550,5 +549,5 @@ const ChatWidget = () => {
   );
 };
 
-// Export memoized component for lazy loading
+// Export memoized component
 export default memo(ChatWidget);
