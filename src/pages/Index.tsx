@@ -9,6 +9,7 @@ import FooterSection from '@/components/FooterSection';
 import CustomCursor from '@/components/CustomCursor';
 import BackToTop from '@/components/BackToTop';
 import CookieConsent from '@/components/CookieConsent';
+import ChatWidget from '@/components/ChatWidget';
 
 const Index = () => {
   return (
@@ -43,6 +44,7 @@ const Index = () => {
       </main>
       <BackToTop />
       <CookieConsent />
+      <ChatWidget />
     </div>
   );
 };
