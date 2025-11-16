@@ -22,11 +22,6 @@ interface Message {
   timestamp: string;
 }
 
-interface QuickReply {
-  id: string;
-  text: string;
-}
-
 // Memoized Message Component
 const MessageBubble = memo(({ message }: { message: Message }) => {
   const [showTimestamp, setShowTimestamp] = useState(false);
@@ -113,60 +108,6 @@ const TypingIndicator = memo(() => (
 
 TypingIndicator.displayName = 'TypingIndicator';
 
-// Memoized Quick Reply Buttons
-const QuickReplies = memo(({
-  replies,
-  onReplyClick
-}: {
-  replies: QuickReply[];
-  onReplyClick: (reply: QuickReply) => void;
-}) => (
-  <div className="flex flex-col gap-2 animate-fade-in">
-    {replies.map((reply) => (
-      <Button
-        key={reply.id}
-        variant="outline"
-        size="sm"
-        onClick={() => onReplyClick(reply)}
-        /* DISEÑO ACCESIBLE:
-           - Fondo blanco sólido
-           - Border azul sólido (no transparente) para máxima visibilidad
-           - Hover: Fondo azul muy claro (#EFF6FF) que mantiene contraste
-           - Focus: Ring visible para navegación por teclado
-           - Active: Feedback visual inmediato
-           - Min height 44px para touch targets WCAG
-        */
-        className="
-          self-start
-          min-h-[44px]
-          px-4
-          text-sm
-          font-medium
-          bg-white
-          text-blue-600
-          border-2
-          border-blue-600
-          hover:bg-blue-50
-          hover:border-blue-700
-          active:bg-blue-100
-          focus:ring-2
-          focus:ring-blue-500
-          focus:ring-offset-2
-          transition-all
-          duration-150
-          shadow-sm
-          hover:shadow-md
-        "
-        aria-label={`Respuesta rápida: ${reply.text}`}
-      >
-        {reply.text}
-      </Button>
-    ))}
-  </div>
-));
-
-QuickReplies.displayName = 'QuickReplies';
-
 // Retry logic with exponential backoff - MOVED OUTSIDE COMPONENT
 const fetchWithRetry = async (
   url: string,
@@ -225,17 +166,11 @@ const ChatWidget = () => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [userId, setUserId] = useState<string>('');
-  const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [isShaking, setIsShaking] = useState(false);
   const [isReconnecting, setIsReconnecting] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatWindowRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const quickReplies: QuickReply[] = [
-    { id: '1', text: 'Consultas' },
-    { id: '2', text: 'Agendar Asesoría' }
-  ];
 
   // Get webhook URL from environment variable
   const WEBHOOK_URL = import.meta.env.VITE_CHATBOT_WEBHOOK_URL || '';
@@ -385,32 +320,6 @@ const ChatWidget = () => {
     }
   }, [userId, WEBHOOK_URL]);
 
-  // Handle quick reply click
-  const handleQuickReplyClick = useCallback(async (reply: QuickReply) => {
-    const userMessage: Message = {
-      id: crypto.randomUUID(),
-      content: reply.text,
-      isBot: false,
-      timestamp: new Date().toISOString()
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setShowQuickReplies(false);
-    setIsTyping(true);
-
-    const botReply = await sendToWebhook(reply.text);
-    setIsTyping(false);
-
-    const botMessage: Message = {
-      id: crypto.randomUUID(),
-      content: botReply,
-      isBot: true,
-      timestamp: new Date().toISOString()
-    };
-
-    setMessages(prev => [...prev, botMessage]);
-  }, [sendToWebhook]);
-
   // Handle send message
   const handleSendMessage = useCallback(async () => {
     if (!inputValue.trim() || inputValue.length > MAX_MESSAGE_LENGTH) return;
@@ -451,7 +360,6 @@ const ChatWidget = () => {
   // Handle restart conversation
   const handleRestartConversation = useCallback(() => {
     setMessages([]);
-    setShowQuickReplies(true);
     setInputValue('');
     setIsTyping(false);
     setIsReconnecting(false);
@@ -589,14 +497,6 @@ const ChatWidget = () => {
             {messages.map((message) => (
               <MessageBubble key={message.id} message={message} />
             ))}
-
-            {/* Quick Replies */}
-            {showQuickReplies && messages.length > 0 && (
-              <QuickReplies
-                replies={quickReplies}
-                onReplyClick={handleQuickReplyClick}
-              />
-            )}
 
             {/* Typing Indicator */}
             {isTyping && <TypingIndicator />}
