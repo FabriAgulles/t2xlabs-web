@@ -4,45 +4,61 @@ import { ArrowRight, Zap } from 'lucide-react';
 
 // Moved outside component to prevent re-creation on every render
 const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
+const TYPING_DELAY_MS = 70;
 
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [showSubtitle, setShowSubtitle] = useState(false);
-  const animationFrameRef = useRef<number>();
+
+  // Use refs to avoid triggering re-renders and race conditions
+  const currentIndexRef = useRef(0);
+  const animationFrameRef = useRef<number | null>(null);
   const lastUpdateRef = useRef<number>(0);
+  const isAnimatingRef = useRef(true);
 
   useEffect(() => {
-    if (currentIndex >= MAIN_TEXT.length) {
-      // Show subtitle after typewriter effect
-      const timeout = setTimeout(() => setShowSubtitle(true), 300);
-      return () => clearTimeout(timeout);
-    }
-
-    // Use requestAnimationFrame for better performance
+    // Single effect that runs only once on mount
     const animate = (timestamp: number) => {
-      if (!lastUpdateRef.current) lastUpdateRef.current = timestamp;
+      // Stop if we've reached the end
+      if (currentIndexRef.current >= MAIN_TEXT.length) {
+        isAnimatingRef.current = false;
+        setShowSubtitle(true);
+        return;
+      }
 
-      const elapsed = timestamp - lastUpdateRef.current;
-
-      // Update every 70ms as requested
-      if (elapsed > 70) {
-        setDisplayedText(prev => prev + MAIN_TEXT[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
+      if (!lastUpdateRef.current) {
         lastUpdateRef.current = timestamp;
       }
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
+      const elapsed = timestamp - lastUpdateRef.current;
 
-    animationFrameRef.current = requestAnimationFrame(animate);
+      // Update every TYPING_DELAY_MS
+      if (elapsed >= TYPING_DELAY_MS) {
+        // CRITICAL: Calculate text from source, never concatenate
+        currentIndexRef.current += 1;
+        const newText = MAIN_TEXT.substring(0, currentIndexRef.current);
+        setDisplayedText(newText);
+        lastUpdateRef.current = timestamp;
+      }
 
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      // Continue animation
+      if (isAnimatingRef.current) {
+        animationFrameRef.current = requestAnimationFrame(animate);
       }
     };
-  }, [currentIndex]); // Removed MAIN_TEXT from dependencies to prevent duplication
+
+    // Start animation
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    // Cleanup function
+    return () => {
+      isAnimatingRef.current = false;
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+  }, []); // Empty dependencies - runs only once on mount
 
   const scrollToContact = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -51,6 +67,9 @@ const HeroSection = () => {
   const scrollToClients = () => {
     document.getElementById('clients-timeline')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const textLines = displayedText.split('\n');
+  const isTyping = currentIndexRef.current < MAIN_TEXT.length;
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden particles energy-waves">
@@ -69,10 +88,10 @@ const HeroSection = () => {
           style={{ marginTop: "20px", paddingTop: "30px" }}>
           <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-tight">
             <span className="bg-clip-text bg-gradient-cosmic font-display">
-              {displayedText.split('\n').map((line, index) => (
+              {textLines.map((line, index) => (
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
                   {line}
-                  {index === displayedText.split('\n').length - 1 && currentIndex < MAIN_TEXT.length && (
+                  {index === textLines.length - 1 && isTyping && (
                     <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse" style={{ willChange: 'opacity' }}></span>
                   )}
                 </div>
