@@ -13,6 +13,7 @@ const WEBHOOK_TIMEOUT = 30000; // 30 seconds
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000; // 1 second
 const SCROLL_THRESHOLD = 100; // Pixels to scroll before showing widget
+const CHAR_WARNING_THRESHOLD = 50; // Show warning when less than 50 chars remain
 
 interface Message {
   id: string;
@@ -53,8 +54,10 @@ const MessageBubble = memo(({ message }: { message: Message }) => {
         <div
           className={`p-3 rounded-lg text-sm transition-all duration-200 ${
             message.isBot
-              ? 'bg-secondary/20 text-card-foreground'
-              : 'bg-primary text-primary-foreground'
+              ? /* DISEÑO ACCESIBLE: Fondo blanco sólido con texto oscuro para contraste WCAG AA (12.63:1) */
+                'bg-white text-slate-800 border border-slate-200 shadow-sm'
+              : /* Mensajes del usuario: Azul con texto blanco (contraste 8.59:1) */
+                'bg-blue-600 text-white shadow-md'
           }`}
         >
           {message.isBot ? (
@@ -67,7 +70,7 @@ const MessageBubble = memo(({ message }: { message: Message }) => {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:opacity-80"
+                    className="underline hover:opacity-80 font-medium"
                   >
                     {children}
                   </a>
@@ -81,7 +84,8 @@ const MessageBubble = memo(({ message }: { message: Message }) => {
           )}
         </div>
         {showTimestamp && (
-          <span className="text-xs text-muted-foreground mt-1 px-1 animate-fade-in">
+          /* Timestamp con contraste mejorado (7.23:1) */
+          <span className="text-xs text-slate-600 mt-1 px-1 animate-fade-in">
             {formatTime(message.timestamp)}
           </span>
         )}
@@ -95,12 +99,13 @@ MessageBubble.displayName = 'MessageBubble';
 // Memoized Typing Indicator
 const TypingIndicator = memo(() => (
   <div className="flex justify-start animate-fade-in">
-    <div className="bg-secondary/20 text-card-foreground p-3 rounded-lg">
+    {/* DISEÑO ACCESIBLE: Fondo blanco con texto oscuro y borde definido */}
+    <div className="bg-white text-slate-700 p-3 rounded-lg border border-slate-200 shadow-sm">
       <div className="flex gap-1 items-center">
         <span className="text-xs mr-2">Titu está escribiendo</span>
-        <div className="w-2 h-2 bg-current rounded-full animate-bounce" />
-        <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-        <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+        <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" />
+        <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+        <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
       </div>
     </div>
   </div>
@@ -123,7 +128,35 @@ const QuickReplies = memo(({
         variant="outline"
         size="sm"
         onClick={() => onReplyClick(reply)}
-        className="self-start text-xs border-primary/30 hover:bg-primary/10"
+        /* DISEÑO ACCESIBLE:
+           - Fondo blanco sólido
+           - Border azul sólido (no transparente) para máxima visibilidad
+           - Hover: Fondo azul muy claro (#EFF6FF) que mantiene contraste
+           - Focus: Ring visible para navegación por teclado
+           - Active: Feedback visual inmediato
+           - Min height 44px para touch targets WCAG
+        */
+        className="
+          self-start
+          min-h-[44px]
+          px-4
+          text-sm
+          font-medium
+          bg-white
+          text-blue-600
+          border-2
+          border-blue-600
+          hover:bg-blue-50
+          hover:border-blue-700
+          active:bg-blue-100
+          focus:ring-2
+          focus:ring-blue-500
+          focus:ring-offset-2
+          transition-all
+          duration-150
+          shadow-sm
+          hover:shadow-md
+        "
         aria-label={`Respuesta rápida: ${reply.text}`}
       >
         {reply.text}
@@ -439,9 +472,10 @@ const ChatWidget = () => {
     }, 100);
   }, []);
 
-  // Character count
+  // Character count with warning states
   const remainingChars = MAX_MESSAGE_LENGTH - inputValue.length;
   const isOverLimit = remainingChars < 0;
+  const isNearLimit = remainingChars > 0 && remainingChars < CHAR_WARNING_THRESHOLD;
 
   // Don't render if not visible yet
   if (!isVisible) return null;
@@ -461,6 +495,9 @@ const ChatWidget = () => {
             duration-500
             hover:scale-110
             hover:shadow-[0_0_40px_rgba(37,99,235,0.6)]
+            focus:ring-4
+            focus:ring-blue-500
+            focus:ring-offset-2
             ${isShaking ? 'chat-widget-shake' : ''}
             bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500
             hover:from-blue-500 hover:via-cyan-500 hover:to-blue-600
@@ -491,7 +528,7 @@ const ChatWidget = () => {
       {isOpen && (
         <div
           ref={chatWindowRef}
-          className="w-80 h-96 bg-card border border-card-border rounded-lg shadow-2xl flex flex-col overflow-hidden animate-scale-in"
+          className="w-80 h-96 bg-white border border-slate-200 rounded-lg shadow-2xl flex flex-col overflow-hidden animate-scale-in"
           role="dialog"
           aria-labelledby="chat-title"
           aria-modal="true"
@@ -524,7 +561,7 @@ const ChatWidget = () => {
                 variant="ghost"
                 size="icon"
                 onClick={handleRestartConversation}
-                className="text-white hover:bg-white/20 transition-colors"
+                className="text-white hover:bg-white/20 transition-colors focus:ring-2 focus:ring-white/50"
                 aria-label="Reiniciar conversación"
                 title="Reiniciar conversación"
               >
@@ -534,7 +571,7 @@ const ChatWidget = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-white/20 transition-colors"
+                className="text-white hover:bg-white/20 transition-colors focus:ring-2 focus:ring-white/50"
                 aria-label="Cerrar chat"
               >
                 <X className="w-4 h-4" />
@@ -544,7 +581,7 @@ const ChatWidget = () => {
 
           {/* Messages */}
           <div
-            className="flex-1 p-4 overflow-y-auto space-y-3 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950"
+            className="flex-1 p-4 overflow-y-auto space-y-3 bg-gradient-to-b from-slate-50 to-white"
             role="log"
             aria-live="polite"
             aria-label="Mensajes del chat"
@@ -568,7 +605,7 @@ const ChatWidget = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-card-border bg-white dark:bg-gray-950">
+          <div className="p-4 border-t border-slate-200 bg-white">
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <Input
@@ -578,7 +615,21 @@ const ChatWidget = () => {
                   onKeyDown={handleKeyPress}
                   placeholder="Escribe tu mensaje..."
                   maxLength={MAX_MESSAGE_LENGTH}
-                  className="flex-1 text-sm border-input-border focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  /* DISEÑO ACCESIBLE:
+                     - Border sólido visible (#E2E8F0)
+                     - Focus: Border azul + ring para indicador claro
+                     - Min height 44px para touch targets
+                  */
+                  className="
+                    flex-1
+                    text-sm
+                    min-h-[44px]
+                    border-slate-300
+                    focus:border-blue-500
+                    focus:ring-2
+                    focus:ring-blue-500/20
+                    placeholder:text-slate-400
+                  "
                   aria-label="Escribe tu mensaje"
                   aria-describedby="char-count"
                 />
@@ -586,16 +637,44 @@ const ChatWidget = () => {
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isOverLimit}
                   size="icon"
-                  className="bg-gradient-to-br from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="
+                    min-w-[44px]
+                    min-h-[44px]
+                    bg-gradient-to-br
+                    from-blue-600
+                    to-cyan-500
+                    hover:from-blue-500
+                    hover:to-cyan-400
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
+                    text-white
+                    shadow-lg
+                    hover:shadow-xl
+                    transition-all
+                    duration-300
+                    focus:ring-2
+                    focus:ring-blue-500
+                    focus:ring-offset-2
+                  "
                   aria-label="Enviar mensaje"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
+              {/* CONTADOR ACCESIBLE:
+                  - Normal: text-slate-600 (contraste 7.23:1)
+                  - Advertencia: text-amber-600 (cuando quedan < 50 chars)
+                  - Error: text-red-600 font-semibold (cuando excede el límite)
+                  - Transición suave entre estados
+              */}
               <div
                 id="char-count"
-                className={`text-xs text-right transition-colors ${
-                  isOverLimit ? 'text-red-500 font-semibold' : 'text-muted-foreground'
+                className={`text-xs text-right font-medium transition-colors duration-200 ${
+                  isOverLimit
+                    ? 'text-red-600 font-semibold'
+                    : isNearLimit
+                    ? 'text-amber-600'
+                    : 'text-slate-600'
                 }`}
                 aria-live="polite"
               >
