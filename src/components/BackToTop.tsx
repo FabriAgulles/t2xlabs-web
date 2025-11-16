@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowUp } from 'lucide-react';
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const ticking = useRef(false);
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          if (window.pageYOffset > 300) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+          ticking.current = false;
+        });
+        ticking.current = true;
       }
     };
 
-    window.addEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 

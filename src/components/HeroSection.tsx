@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
 
@@ -6,21 +6,44 @@ const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showSubtitle, setShowSubtitle] = useState(false);
-  
+  const animationFrameRef = useRef<number>();
+  const lastUpdateRef = useRef<number>(0);
+
   const mainText = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
-  
+
+  // Pre-calculate lines to avoid split on every render
+  const textLines = useMemo(() => mainText.split('\n'), [mainText]);
+
   useEffect(() => {
-    if (currentIndex < mainText.length) {
-      const timeout = setTimeout(() => {
+    if (currentIndex >= mainText.length) {
+      // Show subtitle after typewriter effect
+      const timeout = setTimeout(() => setShowSubtitle(true), 300);
+      return () => clearTimeout(timeout);
+    }
+
+    // Use requestAnimationFrame for better performance
+    const animate = (timestamp: number) => {
+      if (!lastUpdateRef.current) lastUpdateRef.current = timestamp;
+
+      const elapsed = timestamp - lastUpdateRef.current;
+
+      // Update every 50ms instead of 100ms (2x faster)
+      if (elapsed > 50) {
         setDisplayedText(prev => prev + mainText[currentIndex]);
         setCurrentIndex(prev => prev + 1);
-      }, 100);
-      
-      return () => clearTimeout(timeout);
-    } else {
-      // Show subtitle after typewriter effect
-      setTimeout(() => setShowSubtitle(true), 500);
-    }
+        lastUpdateRef.current = timestamp;
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, [currentIndex, mainText]);
 
   const scrollToContact = () => {
@@ -52,7 +75,7 @@ const HeroSection = () => {
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
                   {line}
                   {index === displayedText.split('\n').length - 1 && currentIndex < mainText.length && (
-                    <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse"></span>
+                    <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse" style={{ willChange: 'opacity' }}></span>
                   )}
                 </div>
               ))}
