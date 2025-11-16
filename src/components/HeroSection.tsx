@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
 
 // Moved outside component to prevent re-creation on every render
-const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
-const TYPING_DELAY_MS = 70;
+const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUÉ LADO ESTAR.";
+const TYPING_DELAY_MS = 85;
 
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState('');
