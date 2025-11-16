@@ -302,15 +302,44 @@ const ChatWidget = () => {
         setIsReconnecting
       );
 
-      const data = await response.json();
+      // Intentar parsear JSON de forma segura
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        // Si falla el parseo de JSON, mostrar mensaje user-friendly
+        console.error('Error parsing JSON response:', jsonError);
+        toast.error('Respuesta inesperada del servidor', {
+          description: 'Estamos trabajando en solucionarlo',
+          duration: 5000,
+          position: 'top-right',
+        });
+        return 'Lo siento, recibimos una respuesta inesperada. Por favor intenta de nuevo.';
+      }
+
       return data.reply || 'Lo siento, no pude procesar tu mensaje en este momento.';
     } catch (error) {
       console.error('Error sending to webhook:', error);
 
-      const errorMessage = error instanceof Error ? error.message : 'Error al conectar';
+      // Mensajes de error user-friendly basados en el tipo de error
+      let userMessage = 'Error de conexión';
 
-      toast.error('No pudimos enviar tu mensaje', {
-        description: errorMessage,
+      if (error instanceof Error) {
+        // Convertir mensajes técnicos a mensajes comprensibles
+        if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+          userMessage = 'No pudimos conectar con el servidor';
+        } else if (error.message.includes('timeout') || error.message.includes('AbortError')) {
+          userMessage = 'La conexión tardó demasiado tiempo';
+        } else if (error.message.includes('No pudimos')) {
+          // Mantener nuestros mensajes custom
+          userMessage = error.message;
+        } else {
+          userMessage = 'Problema de conexión temporal';
+        }
+      }
+
+      toast.error('No pudimos procesar tu solicitud', {
+        description: userMessage,
         duration: 5000,
         position: 'top-right',
       });
