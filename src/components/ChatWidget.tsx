@@ -210,7 +210,7 @@ const ChatWidget = () => {
     if (isOpen && messages.length === 0) {
       const initialMessage: Message = {
         id: crypto.randomUUID(),
-        content: '👋 ¡Hola! Soy Titu, el asistente virtual de t2xlabs.\n\nPuedo ayudarte con información sobre nuestros servicios de automatización, chatbots inteligentes, integraciones de sistemas y proyectos con IA.\n\n¿Qué te gustaría saber sobre t2xlabs?',
+        content: '👋 ¡Hola! Soy Titu, el asistente de t2xlabs.\n\nTe ayudo con información sobre servicios de automatizaciones, chatbots con IA e integraciones.\n\n¿Qué necesitas saber?',
         isBot: true,
         timestamp: new Date().toISOString()
       };
