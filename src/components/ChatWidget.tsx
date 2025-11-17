@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import DOMPurify from 'dompurify';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 // Constants
 const MAX_MESSAGE_LENGTH = 300;
@@ -58,6 +59,7 @@ const MessageBubble = memo(({ message }: { message: Message }) => {
           {message.isBot ? (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 p: ({ children }) => <p className="mb-0">{children}</p>,
                 a: ({ href, children }) => (
@@ -284,8 +286,7 @@ const ChatWidget = () => {
 
       const payload = {
         userId,
-        message,
-        timestamp: new Date().toISOString()
+        mensaje: message
       };
 
       const response = await fetchWithRetry(
