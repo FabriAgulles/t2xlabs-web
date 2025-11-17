@@ -1,27 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
 
+// Moved outside component to prevent re-creation on every render
+const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUÉ LADO ESTAR.";
+const TYPING_DELAY_MS = 85;
+
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [showSubtitle, setShowSubtitle] = useState(false);
-  
-  const mainText = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUE LADO ESTAR.";
-  
+
+  // Use refs to avoid triggering re-renders and race conditions
+  const currentIndexRef = useRef(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const lastUpdateRef = useRef<number>(0);
+  const isAnimatingRef = useRef(true);
+
   useEffect(() => {
-    if (currentIndex < mainText.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + mainText[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, 100);
-      
-      return () => clearTimeout(timeout);
-    } else {
-      // Show subtitle after typewriter effect
-      setTimeout(() => setShowSubtitle(true), 500);
-    }
-  }, [currentIndex, mainText]);
+    // Single effect that runs only once on mount
+    const animate = (timestamp: number) => {
+      // Stop if we've reached the end
+      if (currentIndexRef.current >= MAIN_TEXT.length) {
+        isAnimatingRef.current = false;
+        setShowSubtitle(true);
+        return;
+      }
+
+      if (!lastUpdateRef.current) {
+        lastUpdateRef.current = timestamp;
+      }
+
+      const elapsed = timestamp - lastUpdateRef.current;
+
+      // Update every TYPING_DELAY_MS
+      if (elapsed >= TYPING_DELAY_MS) {
+        // CRITICAL: Calculate text from source, never concatenate
+        currentIndexRef.current += 1;
+        const newText = MAIN_TEXT.substring(0, currentIndexRef.current);
+        setDisplayedText(newText);
+        lastUpdateRef.current = timestamp;
+      }
+
+      // Continue animation
+      if (isAnimatingRef.current) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    // Start animation
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    // Cleanup function
+    return () => {
+      isAnimatingRef.current = false;
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+  }, []); // Empty dependencies - runs only once on mount
 
   const scrollToContact = () => {
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -30,6 +67,9 @@ const HeroSection = () => {
   const scrollToClients = () => {
     document.getElementById('clients-timeline')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const textLines = displayedText.split('\n');
+  const isTyping = currentIndexRef.current < MAIN_TEXT.length;
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden particles energy-waves">
@@ -48,11 +88,11 @@ const HeroSection = () => {
           style={{ marginTop: "20px", paddingTop: "30px" }}>
           <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-tight">
             <span className="bg-clip-text bg-gradient-cosmic font-display">
-              {displayedText.split('\n').map((line, index) => (
+              {textLines.map((line, index) => (
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
                   {line}
-                  {index === displayedText.split('\n').length - 1 && currentIndex < mainText.length && (
-                    <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse"></span>
+                  {index === textLines.length - 1 && isTyping && (
+                    <span className="inline-block w-1 h-16 bg-matrix-green ml-2 animate-pulse" style={{ willChange: 'opacity' }}></span>
                   )}
                 </div>
               ))}
@@ -63,13 +103,13 @@ const HeroSection = () => {
         {/* Subtitle with Delay Animation */}
         <div className={`transition-all duration-1000 ${showSubtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-12 leading-relaxed">
-            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial. 
+            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial.
             No somos el futuro. <span className="text-matrix-green font-semibold">Somos el presente</span> que te posiciona por encima de tus competidores.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button 
+            <Button
               onClick={scrollToContact}
               className="group bg-gradient-cosmic border border-neon-cyan text-foreground px-4 py-4 text-lg font-semibold rounded-lg hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
             >
@@ -77,8 +117,8 @@ const HeroSection = () => {
               INICIAR TRANSFORMACIÓN
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={scrollToClients}
               variant="outline"
               className="border-2 border-matrix-green/50 text-matrix-green bg-transparent px-4 py-4 text-lg font-semibold rounded-lg hover:bg-matrix-green/10 hover:shadow-glow-matrix transition-all duration-300"
