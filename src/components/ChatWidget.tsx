@@ -553,6 +553,7 @@ const ChatWidget = () => {
                   className="
                     flex-1
                     text-sm
+                    text-[#333333]
                     min-h-[44px]
                     bg-[#F5F5F5]
                     border-slate-300
