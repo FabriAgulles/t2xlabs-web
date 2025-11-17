@@ -12,10 +12,10 @@ const FooterSection = () => {
           <div className="space-y-6">
             {/* Floating Logo */}
             <div className="relative group">
-              <img 
-                src="https://imgur.com/8RDlmvu.png" 
-                alt="t2xLabs Logo" 
-                className="h-16 w-auto animate-float group-hover:scale-110 transition-transform duration-300"
+              <img
+                src="https://imgur.com/8RDlmvu.png"
+                alt="t2xLabs Logo"
+                className="h-16 w-auto animate-float transition-transform duration-300"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
