@@ -97,7 +97,7 @@ export default {
 				},
 				'float': {
 					'0%, 100%': { transform: 'translateY(0px)' },
-					'50%': { transform: 'translateY(-10px)' }
+					'50%': { transform: 'translateY(-6px)' }
 				},
 				'rotate-slow': {
 					'from': { transform: 'rotate(0deg)' },
@@ -116,7 +116,7 @@ export default {
 				'slide-up': 'slide-up 0.8s ease-out',
 				'scale-in': 'scale-in 0.5s ease-out',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
-				'float': 'float 3s ease-in-out infinite',
+				'float': 'float 4s ease-in-out infinite',
 				'rotate-slow': 'rotate-slow 10s linear infinite',
 				'counter-up': 'counter-up 0.8s ease-out forwards'
 			},
