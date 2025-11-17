@@ -464,13 +464,13 @@ const ChatWidget = () => {
       {isOpen && (
         <div
           ref={chatWindowRef}
-          className="w-80 h-96 bg-white border border-slate-200 rounded-lg shadow-2xl flex flex-col overflow-hidden animate-scale-in"
+          className="w-80 h-[500px] bg-white border border-slate-200 rounded-lg shadow-2xl flex flex-col overflow-hidden animate-scale-in"
           role="dialog"
           aria-labelledby="chat-title"
           aria-modal="true"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 p-4 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 p-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
                 <Bot className="w-4 h-4 text-white" />
@@ -544,6 +544,8 @@ const ChatWidget = () => {
                   placeholder="Escribe tu mensaje..."
                   maxLength={MAX_MESSAGE_LENGTH}
                   /* DISEÑO ACCESIBLE:
+                     - Background claro (#F5F5F5) para mejor contraste
+                     - Placeholder oscuro (#333333) para mejor visibilidad
                      - Border sólido visible (#E2E8F0)
                      - Focus: Border azul + ring para indicador claro
                      - Min height 44px para touch targets
@@ -551,12 +553,14 @@ const ChatWidget = () => {
                   className="
                     flex-1
                     text-sm
+                    text-[#333333]
                     min-h-[44px]
+                    bg-[#F5F5F5]
                     border-slate-300
                     focus:border-blue-500
                     focus:ring-2
                     focus:ring-blue-500/20
-                    placeholder:text-slate-400
+                    placeholder:text-[#333333]
                   "
                   aria-label="Escribe tu mensaje"
                   aria-describedby="char-count"
@@ -590,8 +594,8 @@ const ChatWidget = () => {
                 </Button>
               </div>
               {/* Badge "Hecho por t2xlabs" con diseño futurista */}
-              <div className="flex items-center justify-center gap-2 text-xs mt-1">
-                <span className="text-slate-500 text-[10px]">Powered by</span>
+              <div className="flex items-center justify-center gap-1.5 text-xs mt-0.5">
+                <span className="text-slate-500 text-[8px]">Powered by</span>
                 <a
                   href="https://t2xlabs.com"
                   target="_blank"
@@ -601,9 +605,9 @@ const ChatWidget = () => {
                     relative
                     inline-flex
                     items-center
-                    gap-1.5
-                    px-3
-                    py-1
+                    gap-1
+                    px-2
+                    py-0.5
                     rounded-full
                     bg-gradient-to-r
                     from-cyan-500
@@ -611,7 +615,7 @@ const ChatWidget = () => {
                     to-cyan-500
                     text-white
                     font-bold
-                    text-[10px]
+                    text-[8px]
                     uppercase
                     tracking-wider
                     shadow-md
@@ -629,7 +633,7 @@ const ChatWidget = () => {
                 >
                   {/* Icono de estrella futurista */}
                   <svg
-                    className="w-3 h-3 transition-transform duration-300 group-hover:rotate-12"
+                    className="w-2.5 h-2.5 transition-transform duration-300 group-hover:rotate-12"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
