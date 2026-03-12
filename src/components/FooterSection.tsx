@@ -12,10 +12,10 @@ const FooterSection = () => {
           <div className="space-y-6">
             {/* Floating Logo */}
             <div className="relative group">
-              <img 
-                src="https://imgur.com/8RDlmvu.png" 
-                alt="t2xLabs Logo" 
-                className="h-16 w-auto animate-float group-hover:scale-110 transition-transform duration-300"
+              <img
+                src="https://imgur.com/8RDlmvu.png"
+                alt="t2xLabs Logo"
+                className="h-16 w-auto animate-float transition-transform duration-300"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
@@ -130,14 +130,14 @@ const FooterSection = () => {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           {/* Copyright with Future Date */}
           <div className="text-foreground/60 text-sm font-mono">
-            © 2025 t2xLabs. Todos los derechos reservados. | Future-Powered Technology
+            © 2026 t2xLabs. Todos los derechos reservados. | Future-Powered Technology
           </div>
 
           {/* Made with Love */}
           <div className="flex items-center space-x-2 text-foreground/60 text-sm">
             <span>Hecho con</span>
             <Heart className="h-4 w-4 text-energy-yellow animate-pulse" />
-            <span>y tecnología del 2025</span>
+            <span>y tecnología del 2026</span>
           </div>
 
           {/* Status Indicator */}

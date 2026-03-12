@@ -84,7 +84,7 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    background: 
+    background:
       repeating-linear-gradient(
         90deg,
         transparent,
@@ -93,8 +93,10 @@
       );
     animation: matrix-fall 20s linear infinite;
     z-index: 0;
+    will-change: transform;
+    contain: layout style paint;
   }
-  
+
   .matrix-rain::before {
     content: '';
     position: absolute;
@@ -102,10 +104,11 @@
     left: 0;
     width: 100%;
     height: 200%;
-    background-image: 
+    background-image:
       radial-gradient(circle at 20% 80%, hsl(var(--matrix-green) / 0.1) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, hsl(var(--matrix-green) / 0.1) 0%, transparent 50%);
     animation: matrix-particles 25s ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes matrix-fall {
@@ -143,11 +146,12 @@
   .card-3d {
     transform-style: preserve-3d;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform;
   }
-  
+
   .card-3d:hover {
     transform: perspective(1000px) rotateX(15deg) rotateY(-15deg) translateZ(50px);
-    box-shadow: 
+    box-shadow:
       var(--shadow-elevated),
       var(--glow-cyan);
   }
@@ -157,11 +161,11 @@
     position: relative;
     transform-style: preserve-3d;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    will-change: transform;
   }
-  
+
   .hexagon-card:hover {
-    transform: perspective(1000px) rotateX(16deg) rotateY(-16deg) translateZ(64px);
-    box-shadow: 
+    box-shadow:
       0 50px 100px -20px hsl(var(--neon-cyan) / 0.4),
       var(--glow-cyan);
   }
@@ -225,8 +229,9 @@
   .energy-waves {
     position: relative;
     overflow: hidden;
+    contain: layout style paint;
   }
-  
+
   .energy-waves::before {
     content: '';
     position: absolute;
@@ -238,6 +243,7 @@
     border-radius: 50%;
     transform: translate(-50%, -50%);
     animation: energy-pulse 4s ease-in-out infinite;
+    will-change: transform, opacity;
   }
   
   @keyframes energy-pulse {
@@ -255,8 +261,9 @@
   .particles {
     position: relative;
     overflow: hidden;
+    contain: layout style paint;
   }
-  
+
   .particles::before {
     content: '';
     position: absolute;
@@ -264,12 +271,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
       radial-gradient(circle at 25% 25%, hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px),
       radial-gradient(circle at 75% 75%, hsl(var(--matrix-green) / 0.1) 1px, transparent 1px);
     background-size: 60px 60px, 80px 80px;
     animation: particle-float 20s ease-in-out infinite;
     pointer-events: none;
+    will-change: transform;
   }
   
   @keyframes particle-float {
@@ -294,8 +302,9 @@
     z-index: 9999;
     mix-blend-mode: difference;
     transition: transform 0.1s ease;
+    will-change: transform;
   }
-  
+
   .cursor-outline {
     position: fixed;
     width: 40px;
@@ -305,6 +314,7 @@
     pointer-events: none;
     z-index: 9998;
     transition: all 0.15s ease;
+    will-change: transform;
   }
 
   /* Form Elements */

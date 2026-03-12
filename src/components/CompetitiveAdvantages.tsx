@@ -13,16 +13,16 @@ interface AdvantageData {
 const advantages: AdvantageData[] = [
   {
     icon: <DollarSign className="w-8 h-8" />,
-    title: "MÁS INGRESOS, MENOS ESFUERZO",
-    description: "Automatiza tareas y enfócate en generar más dinero",
-    metric: "80%-150%",
-    detail: "Incremento en ingresos por automatizaciones",
+    title: "MENOS ESFUERZO",
+    description: "Automatiza tareas repetitivas y enfócate en tu negocio",
+    metric: "40%-80%",
+    detail: "Ahorro de tiempo operativo",
     color: "neon-cyan"
   },
   {
     icon: <TrendingUp className="w-8 h-8" />,
     title: "ESCALABILIDAD INTELIGENTE", 
-    description: "Expande tu negocio sin aumentar la nómina",
+    description: "Expande la productividad sin aumentar la nómina",
     metric: "3-5x",
     detail: "Más ventas con el mismo personal",
     color: "matrix-green"
@@ -32,7 +32,7 @@ const advantages: AdvantageData[] = [
     title: "MÁS LEADS, MÁS CLIENTES",
     description: "Nunca pierdas una venta por no responder a tiempo",
     metric: "24/7",
-    detail: "Atiende prospectos en todos tus canales ", 
+    detail: "Atiende prospectos en todos tus canales con IA", 
     color: "plasma-purple"
   },
   {

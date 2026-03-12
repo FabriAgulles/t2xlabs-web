@@ -89,12 +89,9 @@ const ServicesIA = () => {
   }, []);
 
   const getCardTransform = (index: number) => {
-    if (hoveredCard === index) {
-      const offsetX = Math.max(-5, Math.min(5, (mousePosition.x - 300) / 60));
-      const offsetY = Math.max(-5, Math.min(5, (mousePosition.y - 200) / 60));
-      return `perspective(1000px) rotateX(${-offsetY}deg) rotateY(${offsetX}deg) translateZ(8px)`;
-    }
-    return 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    // Transformaciones de movimiento eliminadas para mejorar UX
+    // Solo mantenemos efectos de color, glow y opacidad
+    return 'none';
   };
 
   return (
@@ -217,9 +214,9 @@ const ServicesIA = () => {
           <p className="text-lg text-foreground/70 mb-6">
             ¿Cuál de estos servicios transformaría tu negocio?
           </p>
-          <button 
+          <button
             onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-3 bg-gradient-cosmic border border-neon-cyan rounded-lg text-foreground font-semibold hover:shadow-glow-cyan transition-all duration-300 hover:scale-105"
+            className="px-8 py-3 bg-gradient-cosmic border border-neon-cyan rounded-lg text-foreground font-semibold hover:shadow-glow-cyan transition-all duration-300"
           >
             SOLICITAR CONSULTA GRATUITA
           </button>
