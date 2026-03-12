@@ -1,0 +1,41 @@
+# t2xLabs
+
+> Automatizacion e inteligencia artificial para empresas en Tarragona, Espana
+
+t2xLabs transforma empresas mediante automatizaciones e inteligencia artificial. Nos especializamos en crear sistemas que reducen tareas repetitivas, automatizan la atencion al cliente y multiplican las ventas.
+
+## Servicios Principales
+
+- **Automatizacion de Procesos con N8N**: Flujos de trabajo automatizados que conectan todas tus herramientas en un solo sistema
+- **Agentes y Chatbots con IA**: Asistentes inteligentes 24/7 que responden consultas, califican leads y agendan citas
+- **Email y Comunicacion Automatizada**: Campanas de email personalizadas con IA que convierten prospectos en clientes
+- **Integracion de Sistemas**: Sincronizacion en tiempo real entre todas tus aplicaciones y plataformas
+
+## Producto Destacado: WhatsApp Autopilot
+
+Sistema completo de automatizacion de WhatsApp que incluye:
+- Chatbot con IA y base de conocimiento RAG
+- Panel de gestion de chats para equipos
+- CRM integrado con dashboard de metricas
+- Automatizaciones inteligentes con n8n
+- Implementacion en 4 semanas
+
+## Resultados Demostrados
+
+- 70% reduccion en tareas repetitivas
+- 80% ahorro en costes operativos
+- 85% reduccion en tiempo de respuesta
+- 40% incremento en leads cualificados
+- Implementacion en semanas, no meses
+
+## Contacto
+
+- Web: https://t2xlabs.com
+- WhatsApp Autopilot: https://t2xlabs.com/whatsapp-ai-chatbot/
+- Email: t2xlabs@gmail.com
+- Ubicacion: Tarragona, Espana
+- Consulta gratuita: https://cal.com/t2xlabs/20min-consultaestrategica
+
+## Documentacion Completa
+
+Para informacion detallada sobre todos nuestros servicios, casos de exito y metodologia, consulta: https://t2xlabs.com/llms-full.txt

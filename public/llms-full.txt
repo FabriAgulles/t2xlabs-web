@@ -1,0 +1,276 @@
+# t2xLabs - Documentacion Completa para LLMs
+
+> Automatizacion e inteligencia artificial para empresas del futuro
+
+**Sitio web**: https://t2xlabs.com
+**Ubicacion**: Tarragona, Espana
+**Contacto**: t2xlabs@gmail.com
+**Consulta gratuita**: https://cal.com/t2xlabs/20min-consultaestrategica
+
+---
+
+## Sobre t2xLabs
+
+En t2xLabs transformamos empresas mediante automatizaciones e inteligencia artificial. No somos el futuro. Somos el presente que te posiciona por encima de tus competidores.
+
+### Propuesta de Valor
+
+- **70%** reduccion en tareas repetitivas
+- **80%** ahorro en costes operativos
+- **24/7** atencion automatizada con IA
+
+---
+
+## Servicios de IA
+
+### 1. Automatizacion de Procesos con N8N
+
+**Descripcion**: Conecta todas tus herramientas en flujos inteligentes. Tus sistemas trabajando solos, en perfecta sincronia.
+
+**Caracteristicas**:
+- Flujos de trabajo automatizados
+- Integracion entre aplicaciones
+- Reduccion de errores manuales
+- Escalabilidad automatica
+
+**Ideal para**: Empresas que quieren eliminar tareas repetitivas y conectar sus herramientas existentes.
+
+---
+
+### 2. Agentes y Chatbots con IA
+
+**Descripcion**: Chat en vivo respondiendo a clientes y generando leads automaticamente. Convierte prospectos en clientes con asistentes 24/7.
+
+**Caracteristicas**:
+- Atencion al cliente 24/7
+- Agenda citas automaticamente
+- Conversaciones inteligentes
+- Integracion con CRM
+
+**Ideal para**: Negocios que pierden leads por no responder a tiempo o que responden las mismas preguntas repetidamente.
+
+---
+
+### 3. Email y Comunicacion Automatizada
+
+**Descripcion**: Multiplica tus ventas con correos automaticos que cierran clientes. Automatiza tus emails con IA, aumenta tus ventas.
+
+**Caracteristicas**:
+- Personalizacion inteligente
+- Correos que convierten prospectos en clientes
+- Segmentacion inteligente segun prospecto
+- Aumento en la retencion de clientes
+
+**Ideal para**: Empresas con bases de datos de clientes que quieren maximizar conversiones y retencion.
+
+---
+
+### 4. Integracion entre Sistemas
+
+**Descripcion**: Todas tus apps trabajando como una sola plataforma. Red de aplicaciones sincronizandose en tiempo real.
+
+**Caracteristicas**:
+- Sincronizacion en tiempo real
+- Operacion centralizada en un solo lugar
+- Mejora la toma de decisiones con datos
+- Conecta todas tus plataformas
+
+**Ideal para**: Empresas con multiples herramientas que no se comunican entre si.
+
+---
+
+## Ventajas Competitivas
+
+### Menos Esfuerzo
+Automatiza tareas repetitivas y enfocate en tu negocio.
+- **Metrica**: 40%-80% ahorro de tiempo operativo
+
+### Escalabilidad Inteligente
+Expande la productividad sin aumentar la nomina.
+- **Metrica**: 3-5x mas ventas con el mismo personal
+
+### Mas Leads, Mas Clientes
+Nunca pierdas una venta por no responder a tiempo.
+- **Metrica**: Atencion 24/7 en todos tus canales con IA
+
+### Ventaja Competitiva Real
+Implementacion del desarrollo en semanas, no meses.
+- **Metrica**: Tecnologia que tu competencia no tiene
+
+---
+
+## Casos de Exito / Proyectos Destacados
+
+### Proyecto 1: Atencion al Cliente
+Agente de IA entrenado con documentacion y FAQs de la empresa para atender consultas y gestiones por chat a los usuarios 24/7.
+- **Resultado**: Reduccion del 85% en tiempo de respuesta
+
+### Proyecto 2: Asistente Personal IA
+Un asistente que gestiona agenda, emails y consultas a documentos propios automaticamente.
+- **Resultado**: Ahorro de 10 horas semanales por ejecutivo
+
+### Proyecto 3: Leads Generator
+Formularios web que califican leads y los envian directo a tu CRM.
+- **Resultado**: Incremento del 40% en leads organizados y listos para ventas
+
+### Proyecto 4: IA Email Marketing
+Correos transaccionales con textos que se adaptan al perfil del usuario.
+- **Resultado**: 70% en tasa de clics
+
+### Proyecto 5: Agente IA - Todo en Uno
+Plataforma que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona informacion y tareas automaticamente.
+- **Resultado**: Productividad aumentada en 200%
+
+### Garantias
+- **15 dias** de garantia
+- **95%** clientes satisfechos
+- **<4 semanas** de implementacion
+
+---
+
+## WhatsApp Autopilot System
+
+**URL**: https://t2xlabs.com/whatsapp-ai-chatbot/
+
+### Descripcion
+Sistema completo de automatizacion de WhatsApp: De 0 a WhatsApp Autopilot en 4 semanas. Chatbot con IA + panel de gestion para tu equipo + CRM + automatizaciones. Todo conectado. Todo funcionando. En 1 mes tu WhatsApp vende, responde y gestiona solo.
+
+### Metricas Clave
+- **4 semanas** de implementacion
+- **24/7** respuesta automatica
+- **0** leads perdidos
+- **100%** control humano
+
+### Stack Tecnologico Incluido
+- WhatsApp Business API oficial
+- Panel de gestion de chats
+- Chatbot con IA
+- Base de conocimiento RAG
+- CRM integrado
+- Automatizaciones n8n
+- Dashboard de metricas
+
+### Problemas que Resuelve
+1. **Respondes tarde**: Tu WhatsApp personal es tu "CRM". Respondes cuando puedes, no cuando el cliente necesita.
+2. **Leads perdidos**: Alguien pregunto hace 3 dias y nunca le contestaste. Ese cliente ya eligio a tu competencia.
+3. **Repeticion constante**: Horarios, precios, ubicacion... Las mismas preguntas una y otra vez. Tiempo que no facturas.
+4. **Sin visibilidad**: No sabes cuantos leads recibes, cuantos conviertes, ni puedes gestionar las conversaciones en equipo.
+
+### Plan de Implementacion (4 Semanas)
+
+**Semana 1: Auditoria + Infraestructura + Panel de Gestion**
+- Analisis del flujo actual de mensajes
+- Despliegue del panel de gestion de chats
+- Bandeja compartida, asignacion de agentes, etiquetas y estados
+- Conexion con API oficial de WhatsApp Business
+- *Entregable*: Panel desplegado y conectado a WhatsApp
+
+**Semana 2: Chatbot IA + Base de Conocimiento**
+- Creacion de base de conocimiento vectorial (RAG)
+- Entrenamiento del agente con catalogo, servicios, precios y tono de marca
+- Configuracion de derivacion inteligente bot a humano
+- *Entregable*: Bot funcional con derivacion a humanos configurada
+
+**Semana 3: Automatizaciones + Testing**
+- Flujos de automatizacion: seguimiento, reactivacion, recordatorios, alertas
+- Testing con escenarios reales
+- *Entregable*: Automatizaciones funcionando y testeadas
+
+**Semana 4: Optimizacion + Lanzamiento + Formacion**
+- Ajustes finales basados en tests
+- Lanzamiento en produccion
+- Formacion completa del equipo
+- *Entregable*: Sistema en produccion, equipo autonomo
+
+### Que Incluye el Sistema
+
+1. **Panel de Gestion de Chats** (CENTRAL)
+   - Todas las conversaciones en un solo panel
+   - Intervencion manual en cualquier momento
+   - Bandeja compartida, asignacion de agentes, etiquetas y estados
+
+2. **Chatbot IA con RAG**
+   - Agente entrenado con catalogo y servicios
+   - Respuestas precisas y contextuales usando base de datos vectorial
+
+3. **WhatsApp Business API Oficial**
+   - Conexion directa con Meta
+   - Soporte para templates, multimedia y mensajes masivos
+
+4. **Derivacion Inteligente Bot a Humano**
+   - Deteccion automatica de cuando se necesita intervencion humana
+   - Transferencia con contexto completo
+
+5. **Automatizaciones Inteligentes**
+   - Seguimiento automatico
+   - Reactivacion de clientes inactivos
+   - Recordatorios de cita
+   - Alertas al equipo
+
+6. **CRM + Dashboard de Metricas**
+   - Historial completo de cada cliente
+   - Tiempos de respuesta, leads, conversiones
+
+7. **Formacion para el Equipo**
+   - Sesion practica para autonomia desde el dia 1
+
+8. **2 Semanas de Soporte Post-Launch**
+   - Ajustes y optimizacion incluidos
+
+### Resultados Esperados
+- **98%** tasa de apertura (vs 21% en email)
+- **<1 minuto** tiempo de respuesta (vs horas o dias)
+- **80%** consultas automatizadas
+- **+30%** mas conversiones
+
+### Preguntas Frecuentes (FAQ)
+
+**Necesito conocimientos tecnicos?**
+No. Nosotros montamos todo el sistema. Tu equipo solo necesita usar el panel de gestion y seguir la formacion.
+
+**Funciona con mi numero de WhatsApp actual?**
+Si. Usamos la API oficial de WhatsApp Business. Podemos migrar tu numero actual o configurar uno nuevo.
+
+**El bot reemplaza a mi equipo?**
+No. Tu equipo tiene un panel profesional donde ve todas las conversaciones en tiempo real. Puede intervenir cuando quiera. El bot gestiona lo repetitivo; tu equipo se enfoca en cerrar ventas.
+
+**Que es el panel de gestion de chats?**
+Una plataforma profesional donde todo tu equipo ve las conversaciones de WhatsApp en un solo lugar. Funciona como una bandeja de entrada compartida con etiquetas, asignacion de agentes, historial completo y metricas.
+
+**Que pasa despues de las 4 semanas?**
+El sistema es tuyo y funciona de forma autonoma. Ofrecemos planes de mantenimiento opcionales.
+
+**Cuanto cuesta?**
+Depende de la complejidad. En la consulta gratuita evaluamos tu caso y damos presupuesto cerrado.
+
+---
+
+## Informacion de Contacto
+
+- **Sitio web principal**: https://t2xlabs.com
+- **WhatsApp Autopilot**: https://t2xlabs.com/whatsapp-ai-chatbot/
+- **Email**: t2xlabs@gmail.com
+- **Ubicacion**: Tarragona, Espana
+- **Agendar consulta gratuita**: https://cal.com/t2xlabs/20min-consultaestrategica
+- **LinkedIn**: https://www.linkedin.com/in/fabricio-agulles-projectmanager/
+
+---
+
+## Expertise y Especializacion
+
+t2xLabs es experto en:
+- Automatizacion empresarial
+- Inteligencia artificial aplicada a negocios
+- N8N y flujos de trabajo automatizados
+- Chatbots y agentes conversacionales con IA
+- WhatsApp Business API
+- Integracion de sistemas y APIs
+- Email marketing automatizado
+- CRM y gestion de leads
+- Bases de conocimiento vectoriales (RAG)
+- Transformacion digital para PYMEs
+
+---
+
+*Ultima actualizacion: 2026*
+*Archivo generado para mejorar la visibilidad en sistemas de IA y LLMs*
