@@ -21,7 +21,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      <ChatWidget />
+      {import.meta.env.VITE_CHATBOT_ENABLED === 'true' && <ChatWidget />}
     </TooltipProvider>
   </QueryClientProvider>
 );
