@@ -22,6 +22,14 @@ const SectionLoader = () => (
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero relative overflow-x-hidden custom-cursor">
+      {/* Skip to content - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-neon-cyan focus:text-space-black focus:rounded-lg focus:font-semibold"
+      >
+        Saltar al contenido principal
+      </a>
+
       {/* Matrix Rain Background */}
       <div className="matrix-rain"></div>
 
@@ -34,7 +42,7 @@ const Index = () => {
       <Header />
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10">
         {/* Hero Section - Critical, loaded immediately */}
         <div id="hero">
           <HeroSection />

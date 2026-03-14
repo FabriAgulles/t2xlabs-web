@@ -85,7 +85,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Main Title with Typewriter Effect */}
         <div className="mb-8"
-          style={{ marginTop: "20px", paddingTop: "30px" }}>
+          style={{ marginTop: "40px", paddingTop: "40px" }}>
           <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-tight">
             <span className="bg-clip-text bg-gradient-cosmic font-display">
               {textLines.map((line, index) => (
