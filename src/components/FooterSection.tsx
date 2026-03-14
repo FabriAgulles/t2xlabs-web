@@ -15,6 +15,8 @@ const FooterSection = () => {
               <img
                 src="https://imgur.com/8RDlmvu.png"
                 alt="t2xLabs Logo"
+                width="64"
+                height="64"
                 className="h-16 w-auto animate-float transition-transform duration-300"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

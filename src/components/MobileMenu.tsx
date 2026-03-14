@@ -41,7 +41,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle }) => {
       <button
         onClick={onToggle}
         className="fixed top-4 right-4 z-[100] p-3 bg-gradient-card border border-neon-cyan/30 rounded-xl backdrop-blur-sm hover:border-neon-cyan transition-all duration-300 hover:shadow-glow-cyan"
-        aria-label="Toggle menu"
+        aria-label={isOpen ? "Cerrar menu" : "Abrir menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-navigation"
       >
         <div className="relative w-6 h-6">
           <Menu 
@@ -69,6 +71,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle }) => {
 
       {/* Side Panel */}
       <div
+        id="mobile-navigation"
         className={`fixed top-0 right-0 h-full w-80 z-[95] bg-gradient-card border-l border-neon-cyan/30 backdrop-blur-xl transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}

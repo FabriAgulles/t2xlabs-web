@@ -19,6 +19,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Google Fonts - Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- SEO y Metadatos principales -->
     <meta name="theme-color" content="#00BFFF" />
     <meta name="description" content="Transformamos empresas con automatización e inteligencia artificial. La revolución ya comenzó." />
@@ -39,6 +44,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:title" content="t2xLabs - Automatización e IA Empresarial" />
     <meta name="twitter:description" content="La revolución ya comenzó. Decide de qué lado estar." />
     <meta name="twitter:image" content="https://t2xlabs.com/logo-social.png" />
+
+    <!-- AI/LLM Visibility -->
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Info">
 
     <!-- Structured Data (JSON-LD) con logo de Imgur -->
     <script type="application/ld+json">
@@ -131,6 +139,56 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       ]
     }
     </script>
+
+    <!-- WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "t2xLabs",
+      "url": "https://t2xlabs.com",
+      "inLanguage": "es"
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Que servicios de automatizacion ofrece t2xLabs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "t2xLabs ofrece automatizacion de procesos con N8N, agentes y chatbots con IA, email marketing automatizado, integracion de sistemas, y el sistema WhatsApp Autopilot completo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cuanto tiempo toma implementar el WhatsApp Autopilot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El sistema WhatsApp Autopilot se implementa en 4 semanas, incluyendo auditoria, chatbot con IA, automatizaciones, CRM integrado y formacion del equipo."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://t2xlabs.com"},
+        {"@type": "ListItem", "position": 2, "name": "Servicios", "item": "https://t2xlabs.com/#services"},
+        {"@type": "ListItem", "position": 3, "name": "WhatsApp Autopilot", "item": "https://t2xlabs.com/whatsapp-ai-chatbot/"}
+      ]
+    }
+    </script>
   </head>
 
   <body>
@@ -138,6 +196,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N56QX78D"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+<!-- SEO/GEO: Contenido estatico para crawlers sin JavaScript -->
+<noscript>
+  <div style="max-width:1200px;margin:0 auto;padding:2rem;font-family:system-ui,sans-serif;">
+    <h1>t2xLabs - Automatizacion e IA para empresas</h1>
+    <p>Transformamos empresas con automatizacion e inteligencia artificial.</p>
+
+    <h2>Servicios</h2>
+    <ul>
+      <li><strong>Automatizacion con N8N</strong>: Flujos de trabajo automatizados</li>
+      <li><strong>Chatbots con IA</strong>: Asistentes 24/7 con RAG</li>
+      <li><strong>WhatsApp Autopilot</strong>: Sistema completo en 4 semanas</li>
+      <li><strong>Email automatizado</strong>: Campanas con IA</li>
+      <li><strong>Integracion de sistemas</strong>: APIs y sincronizacion</li>
+    </ul>
+
+    <h2>Resultados</h2>
+    <ul>
+      <li>70% reduccion tareas repetitivas</li>
+      <li>80% ahorro costes operativos</li>
+      <li>24/7 atencion automatizada</li>
+    </ul>
+
+    <h2>Contacto</h2>
+    <p>Email: t2xlabs@gmail.com | Tarragona, Espana</p>
+    <p>Mas info: <a href="/llms.txt">llms.txt</a></p>
+  </div>
+</noscript>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
