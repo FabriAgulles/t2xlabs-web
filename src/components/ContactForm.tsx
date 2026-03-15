@@ -72,67 +72,27 @@ const ContactForm = () => {
     setShowPortal(true);
 
     try {
-      // ✅ CREDENCIALES DESDE ARCHIVO .ENV LOCAL
-      const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
-      const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
-      
-      // Validación de que las variables existen
-      if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
-        console.error('❌ Variables de entorno faltantes:', {
-          BASE_ID: !!AIRTABLE_BASE_ID,
-          TOKEN: !!AIRTABLE_TOKEN
-        });
-        throw new Error('Variables de entorno no encontradas en archivo .env');
-      }
-      
-      console.log('🚀 Enviando a Airtable...');
-      
-      // ✅ DATOS CON FECHA.CREACION INCLUIDA
-      const requestData = {
-        records: [{
-          fields: {
-            Nombre: formData.nombre,
-            Email: formData.email,
-            Empresa: formData.empresa,
-            TamañoEmpresa: formData.companySize || '',
-            Presupuesto: formData.budget || '',
-            InterésPrincipal: formData.interest || '',
-            Mensaje: formData.mensaje || '',
-            Estado: 'Nuevo'
-            // fecha.creacion se auto-genera en Airtable (campo computado)
-          }
-        }]
-      };
-
-      console.log('📊 Datos exactos enviados:', JSON.stringify(requestData, null, 2));
-
-      const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Leads`, {
+      const response = await fetch('/.netlify/functions/submit-lead', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-      });
-
-      const result = await response.json();
-      
-      console.log('📡 Respuesta de Airtable:', {
-        status: response.status,
-        statusText: response.statusText,
-        result: result
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          empresa: formData.empresa,
+          companySize: formData.companySize,
+          budget: formData.budget,
+          interest: formData.interest,
+          mensaje: formData.mensaje,
+        })
       });
 
       if (response.ok) {
-        console.log('✅ Lead guardado exitosamente en Airtable');
-        
         toast({
-          title: "¡Transformación iniciada! 🚀",
+          title: "¡Transformación iniciada!",
           description: "Nos contactaremos contigo en las próximas 24 horas.",
           variant: "default"
         });
-        
-        // Reset form
+
         setFormData({
           nombre: '',
           email: '',
@@ -143,27 +103,16 @@ const ContactForm = () => {
           mensaje: ''
         });
       } else {
-        console.error('❌ Error de Airtable:', result);
-        throw new Error(`Error ${response.status}: ${result.error?.message || 'Error desconocido'}`);
+        const result = await response.json();
+        throw new Error(result.error || 'Error al enviar el formulario');
       }
 
     } catch (error) {
-      console.error('❌ Error completo:', error);
-      
-      let errorMessage = "Error de transmisión";
-      if (error instanceof Error) {
-        if (error.message.includes('Variables de entorno')) {
-          errorMessage = "Configuración pendiente. Contacta al administrador.";
-        } else if (error.message.includes('fetch')) {
-          errorMessage = "Error de conexión. Verifica tu internet.";
-        } else {
-          errorMessage = `Error: ${error.message}`;
-        }
-      }
-      
+      console.error('Contact form error:', error instanceof Error ? error.message : 'Unknown error');
+
       toast({
         title: "Error de transmisión",
-        description: errorMessage,
+        description: "No se pudo enviar el formulario. Por favor, inténtalo de nuevo.",
         variant: "destructive"
       });
     } finally {
