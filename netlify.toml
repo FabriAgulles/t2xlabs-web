@@ -2,6 +2,16 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
+# www redirect
+[[redirects]]
+  from = "https://t2xlabs.com/*"
+  to = "https://www.t2xlabs.com/:splat"
+  status = 301
+  force = true
+
 # SPA Fallback - CRITICAL for React Router
 [[redirects]]
   from = "/*"
@@ -36,3 +46,16 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
     Content-Type = "text/plain; charset=utf-8"
+
+# Crawler files
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
