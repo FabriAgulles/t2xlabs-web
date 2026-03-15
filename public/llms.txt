@@ -30,12 +30,12 @@ Sistema completo de automatizacion de WhatsApp que incluye:
 
 ## Contacto
 
-- Web: https://t2xlabs.com
-- WhatsApp Autopilot: https://t2xlabs.com/whatsapp-ai-chatbot/
+- Web: https://www.t2xlabs.com
+- WhatsApp Autopilot: https://www.t2xlabs.com/whatsapp-ai-chatbot/
 - Email: t2xlabs@gmail.com
 - Ubicacion: Tarragona, Espana
 - Consulta gratuita: https://cal.com/t2xlabs/20min-consultaestrategica
 
 ## Documentacion Completa
 
-Para informacion detallada sobre todos nuestros servicios, casos de exito y metodologia, consulta: https://t2xlabs.com/llms-full.txt
+Para informacion detallada sobre todos nuestros servicios, casos de exito y metodologia, consulta: https://www.t2xlabs.com/llms-full.txt

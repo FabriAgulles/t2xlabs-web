@@ -597,7 +597,7 @@ const ChatWidget = () => {
               <div className="flex items-center justify-center gap-1.5 text-xs mt-0.5">
                 <span className="text-slate-500 text-[8px]">Powered by</span>
                 <a
-                  href="https://t2xlabs.com"
+                  href="https://www.t2xlabs.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="

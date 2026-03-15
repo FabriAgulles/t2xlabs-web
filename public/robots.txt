@@ -1,7 +1,11 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://t2xlabs.com/sitemap.xml
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
 
 # LLM Crawlers
 User-agent: GPTBot
@@ -15,3 +19,5 @@ Allow: /
 
 User-agent: PerplexityBot
 Allow: /
+
+Sitemap: https://www.t2xlabs.com/sitemap.xml
