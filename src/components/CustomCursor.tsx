@@ -3,25 +3,33 @@ import React, { useEffect, useState, useRef } from 'react';
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState('default');
+  const [hasFineCursor, setHasFineCursor] = useState(true);
   const rafRef = useRef<number>();
   const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    // Use requestAnimationFrame to throttle updates to monitor refresh rate
+    const mq = window.matchMedia('(pointer: fine)');
+    setHasFineCursor(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setHasFineCursor(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!hasFineCursor) return;
+
     const updateMousePosition = () => {
       setMousePosition({ x: mouseRef.current.x, y: mouseRef.current.y });
       rafRef.current = requestAnimationFrame(updateMousePosition);
     };
 
     const mouseMove = (e: MouseEvent) => {
-      // Store position in ref, update via RAF
       mouseRef.current = { x: e.clientX, y: e.clientY };
     };
 
     const handleMouseEnter = () => setCursorVariant('hover');
     const handleMouseLeave = () => setCursorVariant('default');
 
-    // Add event listeners to interactive elements
     const interactiveElements = document.querySelectorAll('button, a, .card-3d, .hexagon-card');
 
     interactiveElements.forEach(el => {
@@ -31,7 +39,6 @@ const CustomCursor = () => {
 
     window.addEventListener('mousemove', mouseMove, { passive: true });
 
-    // Start RAF loop
     rafRef.current = requestAnimationFrame(updateMousePosition);
 
     return () => {
@@ -44,7 +51,7 @@ const CustomCursor = () => {
         el.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  }, []);
+  }, [hasFineCursor]);
 
   const variants = {
     default: {
@@ -58,6 +65,8 @@ const CustomCursor = () => {
       scale: 2,
     },
   };
+
+  if (!hasFineCursor) return null;
 
   return (
     <>
