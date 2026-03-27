@@ -37,11 +37,11 @@ const handler: Handler = async (event: HandlerEvent) => {
     return json(400, { error: "Invalid JSON" });
   }
 
-  const { nombre, email, empresa, companySize, budget, interest, mensaje } = body;
+  const { nombre, email, empresa, interest, mensaje } = body;
 
   // Validate required fields (aligned with client form)
-  if (!nombre || !email || !empresa || !companySize || !budget || !interest) {
-    return json(400, { error: "Missing required fields: nombre, email, empresa, companySize, budget, interest" });
+  if (!nombre || !email || !empresa || !interest) {
+    return json(400, { error: "Missing required fields: nombre, email, empresa, interest" });
   }
 
   if (!EMAIL_RE.test(email)) {
@@ -64,8 +64,6 @@ const handler: Handler = async (event: HandlerEvent) => {
                 Nombre: nombre,
                 Email: email,
                 Empresa: empresa,
-                "TamañoEmpresa": companySize,
-                Presupuesto: budget,
                 "InterésPrincipal": interest,
                 Mensaje: mensaje || "",
                 Estado: "Nuevo",

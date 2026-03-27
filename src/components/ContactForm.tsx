@@ -9,8 +9,6 @@ interface FormData {
   nombre: string;
   email: string;
   empresa: string;
-  companySize: string;
-  budget: string;
   interest: string;
   mensaje: string;
 }
@@ -21,16 +19,12 @@ const ContactForm = () => {
     nombre: '',
     email: '',
     empresa: '',
-    companySize: '',
-    budget: '',
     interest: '',
     mensaje: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPortal, setShowPortal] = useState(false);
 
-  const companySizes = ['1-10', '11-50', '51-200', '201-1000', '1000+'];
-  const budgets = ['≤1.000€', '1.000-3.000€', '3.000-6.000€', '6.000-10.000€', '10.000€+'];
   const interests = ['Automatización', 'Agentes IA', 'Chatbot', 'Fusión de Sistemas', 'Transformación Completa'];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -50,10 +44,10 @@ const ContactForm = () => {
     e.preventDefault();
     
     // Validation
-    if (!formData.nombre || !formData.email || !formData.empresa || !formData.companySize || !formData.budget || !formData.interest) {
+    if (!formData.nombre || !formData.email || !formData.empresa || !formData.interest) {
       toast({
         title: "Campos requeridos",
-        description: "Por favor completa todos los campos obligatorios incluyendo tamaño de empresa, presupuesto e interés principal.",
+        description: "Por favor completa todos los campos obligatorios.",
         variant: "destructive"
       });
       return;
@@ -79,8 +73,6 @@ const ContactForm = () => {
           nombre: formData.nombre,
           email: formData.email,
           empresa: formData.empresa,
-          companySize: formData.companySize,
-          budget: formData.budget,
           interest: formData.interest,
           mensaje: formData.mensaje,
         })
@@ -97,8 +89,6 @@ const ContactForm = () => {
           nombre: '',
           email: '',
           empresa: '',
-          companySize: '',
-          budget: '',
           interest: '',
           mensaje: ''
         });
@@ -222,48 +212,6 @@ const ContactForm = () => {
                   <Zap className="mr-2" />
                   Detalles del Proyecto
                 </h3>
-
-                {/* Company Size */}
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-3">
-                    Tamaño de Empresa *
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {companySizes.map((size) => (
-                      <button
-                        key={size}
-                        type="button"
-                        onClick={() => handleButtonSelection('companySize', size)}
-                        className={`form-button p-2 text-sm rounded-lg transition-all duration-300 ${
-                          formData.companySize === size ? 'selected' : ''
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Budget */}
-                <div>
-                  <label className="block text-sm font-medium text-foreground/80 mb-3">
-                    Presupuesto *
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {budgets.map((budget) => (
-                      <button
-                        key={budget}
-                        type="button"
-                        onClick={() => handleButtonSelection('budget', budget)}
-                        className={`form-button p-2 text-sm rounded-lg transition-all duration-300 ${
-                          formData.budget === budget ? 'selected' : ''
-                        }`}
-                      >
-                        {budget}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Interest */}
                 <div>
