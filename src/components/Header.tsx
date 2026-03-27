@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MobileMenu from './MobileMenu';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleNavClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    if (isHomePage) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(`/#${sectionId}`);
+    }
   };
 
   return (
@@ -48,11 +61,8 @@ const Header = () => {
               ].map((item) => (
                 <a
                   key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  href={`/#${item.id}`}
+                  onClick={(e) => handleNavClick(e, item.id)}
                   className="text-foreground/80 hover:text-neon-cyan transition-colors duration-300 font-medium"
                 >
                   {item.label}

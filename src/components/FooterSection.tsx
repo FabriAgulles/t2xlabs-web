@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Linkedin, Mail, Heart } from 'lucide-react';
 
 const FooterSection = () => {
@@ -132,7 +133,10 @@ const FooterSection = () => {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           {/* Copyright with Future Date */}
           <div className="text-foreground/60 text-sm font-mono">
-            © 2026 t2xLabs. Todos los derechos reservados. | Future-Powered Technology
+            © 2026 t2xLabs. Todos los derechos reservados. |{' '}
+            <Link to="/privacidad" className="hover:text-neon-cyan transition-colors">
+              Privacidad
+            </Link>
           </div>
 
           {/* Made with Love */}
