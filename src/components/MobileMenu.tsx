@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 interface MobileMenuProps {
@@ -7,6 +8,10 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -20,10 +25,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle }) => {
   }, [isOpen]);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      onToggle(); // Close menu after navigation
+    onToggle(); // Close menu first
+    if (isHomePage) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(`/#${sectionId}`);
     }
   };
 
