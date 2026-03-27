@@ -82,7 +82,6 @@ const Privacidad = () => {
                     <ul className="list-disc list-inside space-y-1 ml-4 text-foreground/70">
                       <li>Nombre</li>
                       <li>Email</li>
-                      <li>Teléfono (opcional)</li>
                       <li>Mensaje</li>
                     </ul>
                   </div>
