@@ -197,7 +197,7 @@ const ClientsTimeline = () => {
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
+         {/*<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
           <div className="text-center bg-gradient-card border border-card-border rounded-xl p-6">
             <div className="text-3xl font-bold text-neon-cyan mb-2">15</div>
             <div className="text-foreground/70">Días de garantía</div>
@@ -210,7 +210,7 @@ const ClientsTimeline = () => {
             <div className="text-3xl font-bold text-plasma-purple mb-2">&lt;4</div>
             <div className="text-foreground/70">Semanas Implementación</div>
           </div>
-        </div>
+        </div>*/}
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
