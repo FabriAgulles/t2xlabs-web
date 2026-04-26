@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
 
 // Moved outside component to prevent re-creation on every render
-const MAIN_TEXT = "LA REVOLUCIÓN YA COMENZÓ.\nDECIDE DE QUÉ LADO ESTAR.";
+const MAIN_TEXT = "AUTOMATIZACIONES CON IA \n PARA \n EMPRESAS QUE QUIEREN \n ESCALAR.";
 const TYPING_DELAY_MS = 85;
 
 const HeroSection = () => {
@@ -103,7 +103,7 @@ const HeroSection = () => {
         {/* Subtitle with Delay Animation */}
         <div className={`transition-all duration-1000 ${showSubtitle ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <p className="text-xl md:text-2xl text-foreground/80 max-w-4xl mx-auto mb-12 leading-relaxed">
-            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> transformamos empresas mediante automatizaciones e inteligencia artificial.
+            En <span className="font-semibold" style={{color: '#1C90ED'}}>t2xlabs</span> construimos sistemas con IA que filtran lo repetitivo, automatizan lo operativo y liberan a los equipos para lo que realmente importa.
             No somos el futuro. <span className="text-matrix-green font-semibold">Somos el presente</span> que te posiciona por encima de tus competidores.
           </p>
 
