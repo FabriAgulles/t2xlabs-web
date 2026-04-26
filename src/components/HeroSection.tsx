@@ -128,7 +128,7 @@ const HeroSection = () => {
           </div>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
+          {/*<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-neon-cyan mb-2">70%</div>
               <div className="text-foreground/70">Reducción en tareas repetitivas</div>
@@ -141,11 +141,11 @@ const HeroSection = () => {
               <div className="text-3xl md:text-4xl font-bold text-plasma-purple mb-2">24/7</div>
               <div className="text-foreground/70">Atención automatizada con IA</div>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
 
-      {/* Floating particles effect */}
+        {/* Floating particles effect */}
       <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-neon-cyan rounded-full opacity-60 animate-float" style={{ animationDelay: '0s' }}></div>
       <div className="absolute top-1/3 right-1/4 w-1 h-1 bg-matrix-green rounded-full opacity-60 animate-float" style={{ animationDelay: '1s' }}></div>
       <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-plasma-purple rounded-full opacity-60 animate-float" style={{ animationDelay: '2s' }}></div>
