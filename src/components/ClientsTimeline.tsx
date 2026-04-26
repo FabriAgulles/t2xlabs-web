@@ -13,8 +13,8 @@ interface ProjectData {
 const projects: ProjectData[] = [
   {
     icon: <Users className="w-6 h-6" />,
-    title: "Atención al Cliente",
-    description: "Agente de IA entrenado con documentación y FAQs de la empresa para atender consultas y gestiones por chat a los usuarios 24/7",
+    title: "Agente conversacional con IA",
+    description: "Agente de IA en whatsapp entrenado con documentación y FAQs de la empresa para atender consultas y gestiones por chat a los usuarios 24/7",
     impact: "Reducción del 85% en tiempo de respuesta",
     metric: "85%",
     color: "neon-cyan"
@@ -45,8 +45,8 @@ const projects: ProjectData[] = [
   },
   {
     icon: <Database className="w-6 h-6" />,
-    title: "Agente IA - Todo en uno",
-    description: "Plataforma que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona información y tareas automáticamente",
+    title: "Agente IA - All Inclusive",
+    description: "Sistema que integra todas tus herramientas (Gmail, Calendar, Drive, Trello, bases de datos) con un chatbot que gestiona información y tareas automáticamente",
     impact: "Productividad aumentada en 200%",
     metric: "200%",
     color: "neon-cyan"
