@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Zap } from 'lucide-react';
 
 // Moved outside component to prevent re-creation on every render
-const MAIN_TEXT = "AUTOMATIZACIONES CON IA \n PARA \n EMPRESAS QUE QUIEREN \n ESCALAR.";
+const MAIN_TEXT = "AUTOMATIZACIONES \n CON IA \n PARA EMPRESAS QUE \n QUIEREN ESCALAR.";
 const TYPING_DELAY_MS = 85;
 
 const HeroSection = () => {
