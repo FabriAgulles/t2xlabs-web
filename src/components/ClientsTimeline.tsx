@@ -29,10 +29,10 @@ const projects: ProjectData[] = [
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
-    title: "Leads Generator",
-    description: "Formularios web que califican leads y los envían directo a tu CRM",
-    impact: "Incremento del 40% en leads organizados y listos para ventas.",
-    metric: "40%",
+    title: "Automatización de outreach sobre CRM",
+    description: "Automatización de campaña masiva con sincronización de CRM en tiempo real.",
+    impact: "+3.500 conversaciones autónomas en una sola campaña",
+    metric: "+3.500",
     color: "plasma-purple"
   },
   {
