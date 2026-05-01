@@ -86,7 +86,7 @@ const HeroSection = () => {
         {/* Main Title with Typewriter Effect */}
         <div className="mb-8"
           style={{ marginTop: "40px", paddingTop: "40px" }}>
-          <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold leading-tight">
+          <h1 className="font-bold leading-tight" style={{ fontSize: 'clamp(1.5rem, 8vw, 6rem)' }}>
             <span className="bg-clip-text bg-gradient-cosmic font-display">
               {textLines.map((line, index) => (
                 <div key={index} className={index === 1 ? 'mt-4' : ''}>
