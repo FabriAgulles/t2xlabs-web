@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Privacidad from "./pages/Privacidad";
 import NotFound from "./pages/NotFound";
-import ChatWidget from "@/components/ChatWidget";
+// ChatWidget (Titu) desactivado temporalmente
+// import ChatWidget from "@/components/ChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +24,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      {import.meta.env.VITE_CHATBOT_ENABLED === 'true' && <ChatWidget />}
+      {/* {import.meta.env.VITE_CHATBOT_ENABLED === 'true' && <ChatWidget />} */}
     </TooltipProvider>
   </QueryClientProvider>
 );
